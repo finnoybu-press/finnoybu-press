@@ -20,6 +20,7 @@
 # Workers note: named environments ([env.<name>]) create SEPARATE workers — keep
 # a single top-level (= production) config. `main`/`[assets]` are intentionally
 # omitted; the adapter generates them. Deploy: wrangler deploy -c dist/server/wrangler.json
+# Workers Builds runs `npm run build` and that deploy command on every push to main.
 
 name = "press"
 compatibility_date = "2026-05-15"
