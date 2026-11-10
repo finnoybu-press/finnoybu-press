@@ -19,5 +19,10 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Per-visitor pages (sign-in, cart, post-checkout) have nothing to index.
+      filter: (page) => !/\/(account|cart|shop\/success)\/?$/.test(page),
+    }),
+  ],
 });
