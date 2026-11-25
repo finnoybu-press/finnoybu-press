@@ -21,7 +21,7 @@ const books = defineCollection({
       'aegis-toolkits',         // 4 (toolkits, not books)
       'enterprise-toolkit',     // 5 (toolkit, not books)
       'product-guides-ii',      // 6 Extended Series — Product Guides, Vol. II (22-25)
-      'capability-set',         // 7 Extended Series — The Capability Set (26-28)
+      'capability-set',         // 7 Extended Series — The Capability Set (26-29)
     ]),
     cover_variant: z.enum(['platform', 'guide', 'skills', 'extended']),
 
