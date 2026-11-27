@@ -8,10 +8,11 @@ collection: cross-platform-skills
 cover_variant: skills
 
 accent_color: "#C73030"
-cover_image: /images/cover-15-ai-systems-playbook.jpg
-cover_thumb: /images/thumbs/cover-15-ai-systems-playbook.jpg
+cover_image: /images/cover-15-ai-systems-playbook-2027.jpg
+cover_thumb: /images/thumbs/cover-15-ai-systems-playbook-2027.jpg
+edition_cover_thumb: /images/thumbs/cover-15-ai-systems-playbook.jpg
 
-description: How to choose the right AI for every task and build workflows that span multiple platforms. The multi-AI strategy guide.
+description: "You don't use one knife for everything in the kitchen, so why use one AI for everything at work? How to choose the right AI for every task, build workflows across ChatGPT, Claude, Gemini and more, and delegate to agents safely."
 chapter_count: 22
 page_estimate: "~200"
 
@@ -46,26 +47,28 @@ newer_edition:
 status: published
 ---
 
-ChatGPT for the email. Claude for the long-form draft. Perplexity for the research. Gemini in your Google Docs. Copilot in your enterprise tenant. Most working people now have access to four or five AI assistants — and almost no idea which one to use when.
+**You don't use one knife for everything in the kitchen. So why are you still using one AI for everything in your work?**
 
-That confusion is expensive. You write the same prompt in three tabs to compare answers. You pay for overlapping subscriptions. You hand off work between tools and lose half the context every time. You pick the wrong AI for the job and blame the technology when it underperforms.
+ChatGPT for the email. Claude for the long draft. Perplexity for the research. Gemini in your Google Docs. Copilot in Microsoft 365. Most working people now have access to four or five AI assistants, and a growing number of AI agents that can take a whole job off their hands. Very few have a clear idea of which one to use when.
 
-*AI Systems Playbook* is the book that makes the multi-AI world legible. Instead of going deep on a single product, this book goes wide: it teaches you which AI is genuinely best at each kind of work, how to chain them together into reliable workflows, and how to build a personal AI strategy that survives the next round of model launches.
+That confusion costs you. You paste the same prompt into three tabs to compare answers. You pay for overlapping subscriptions. You move work between tools and lose half the context every time. You hand a job to an agent without knowing how to check what it did.
+
+**AI Systems Playbook** makes the multi-AI world make sense. Instead of going deep on a single product, it goes wide: which AI is best at each kind of work, how to chain several of them into reliable workflows, when to chat and when to delegate, and how to build a personal AI strategy that survives the next round of launches.
 
 ## What's inside
 
-**The landscape, mapped honestly.** What's out there in 2026, how these tools actually work under the hood, and the differences between the major players (ChatGPT, Claude, Gemini, Perplexity, Copilot, and the rest) that actually matter for your work.
+**The landscape, mapped honestly.** How these assistants work, what changed in 2026, and the differences between ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok, Meta AI, Mistral Vibe, DeepSeek and local models that actually matter for your work.
 
-**Head-to-head, by use case.** Eight chapters of opinionated, hands-on comparisons — writing, research, data analysis, coding, creative work, business and professional use, education and learning. For every task, a clear "reach for this one first" recommendation, with the reasoning behind it.
+**Task by task.** Seven chapters of hands-on comparisons: writing, research, data analysis, coding, creative work, business use, and education. For every task, a clear "reach for this one first" recommendation and the reasoning behind it.
 
-**Cross-AI workflows.** This is where the real power lives. Multi-AI workflow design. The art of the handoff between tools without losing context. Managing your AI toolkit so the subscriptions earn their keep. Privacy and data flow across platforms. Prompt portability when you switch.
+**Multi-AI workflows.** Six workflow patterns, the art of the handoff, moving memory and context between platforms, and managing your toolkit so every subscription earns its keep.
 
-**The deeper layer.** Custom assistants across platforms (Custom GPTs, Claude Projects, Gemini Gems), AI baked into the tools you already use (Microsoft 365, Google Workspace, Notion, Slack), and mobile and on-the-go AI patterns.
+**Cross-platform strategies.** Privacy and data across platforms, prompts and instructions that travel, custom assistants (Projects, plugins, skills, Gems, Notebooks and Copilot agents), AI inside the tools you already use, and AI on your phone.
 
-**Strategy, not just tactics.** What to do when AI gets it wrong. How to build your personal AI strategy. How to evaluate the next wave of platforms without rewriting your whole approach.
+**Strategy, not just tactics.** How assistants and agents fail and how to check their work, how to build your personal AI strategy, and how to judge the next new tool without starting over.
 
-**Comparison tables, workflow templates, and a full glossary** in the appendices — designed for quick reference long after the read-through.
+**Reference.** Comparison tables, 27 workflow templates, a glossary, and official links, built for quick lookup long after the first read.
 
-If you are tired of hopping between tabs hoping the next AI will give you the answer the last one missed, this book replaces the chaos with a system.
+If you're tired of hopping between tabs hoping the next AI will give you the answer the last one missed, this book replaces the chaos with a system.
 
-Includes coverage of GPT-5, Claude Sonnet 4.6 / Opus 4.7, Gemini 3, Perplexity Sonar, Microsoft Copilot, and the cross-platform integrations that matter in 2026.
+**The 2027 Edition is fully revised for late 2026: current plans and prices, the GPT-6, Claude 5.5 and Gemini 4 model families, agents that do the work for you, memory you can take with you, and new workflow templates for delegated work.**

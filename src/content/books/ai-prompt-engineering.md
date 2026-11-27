@@ -8,10 +8,11 @@ collection: cross-platform-skills
 cover_variant: skills
 
 accent_color: "#D97706"
-cover_image: /images/cover-16-ai-prompt-engineering.jpg
-cover_thumb: /images/thumbs/cover-16-ai-prompt-engineering.jpg
+cover_image: /images/cover-16-ai-prompt-engineering-2027.jpg
+cover_thumb: /images/thumbs/cover-16-ai-prompt-engineering-2027.jpg
+edition_cover_thumb: /images/thumbs/cover-16-ai-prompt-engineering.jpg
 
-description: Universal prompt engineering techniques that work across every AI platform. 56 reusable patterns and tested frameworks.
+description: "Most prompts fail for the same handful of reasons, and this book teaches you to fix all of them. Universal prompt-engineering techniques for every AI platform, now covering thinking models, skills, and briefing agents."
 chapter_count: 22
 page_estimate: "~225"
 
@@ -46,26 +47,26 @@ newer_edition:
 status: published
 ---
 
-You already know how to use AI. You have typed plenty of questions into ChatGPT, asked Claude to draft an email, had Gemini summarize a document. You are past "wow, this is cool" and into "why won't it just do what I want?" That is the phase where most people quietly give up — and the phase this book is built for.
+**Most prompts fail for the same handful of reasons. This book teaches you to fix all of them.**
 
-This is a prompting book, not a product book. The techniques work across every major AI platform because they are rooted in how large language models actually process language, not in the quirks of any single product. The product guides teach you to drive specific cars. This book teaches you to drive.
+You already know how to use AI. You've typed plenty of questions into ChatGPT, asked Claude to draft an email, had Gemini summarize a document. You're past "wow, this is cool" and into "why won't it just do what I want?" That's the phase where most people quietly give up, and the phase this book is built for.
+
+This is a prompting book, not a product book. The techniques work across every major AI platform because they're rooted in how language models actually process what you write, not in the quirks of any single product. The product guides teach you to drive specific cars. This book teaches you to drive.
 
 ## What's inside
 
-**Foundations.** Why most prompts fail, how AI models process your words, and the universal anatomy of a great prompt. Specificity as a superpower — the single highest-leverage skill in prompting.
+**How prompts work.** Why most prompts fail, how AI models process your words (including the thinking models that now dominate), and the universal anatomy of a great prompt.
 
-**Core techniques every serious user should master.** Few-shot prompting. Chain-of-thought reasoning. System prompts and instructions. Structured output (JSON, tables, schemas). Persona and voice control.
+**Core techniques.** Specificity, few-shot examples, chain-of-thought and effort settings, custom instructions and skills, structured output, and voice control.
 
-**Advanced methods.** The iterative prompt — how to converge on great output instead of starting over. Prompt chains and pipelines. Negative prompting. Context window management. Multimodal prompting (images, audio, mixed inputs).
+**Advanced techniques.** Iterating instead of starting over, prompt chains and when to hand a job to an agent, negative prompting and guardrails, context management, and prompting with images, documents, audio, video and live voice.
 
-**Domain applications.** Prompting for code, for writing, for analysis, and for creative work — each with worked examples and the patterns that consistently outperform generic prompts.
+**Domain-specific prompting.** Code (including briefing coding agents), writing, analysis (including deep research modes), and creative work, each with worked examples.
 
-**Mastery.** Testing and evaluating prompts like a real practitioner. Building and maintaining a prompt library that scales with your work and your team. Platform-specific tricks for ChatGPT, Claude, and Gemini. The future of prompting in an agentic world.
+**Building and maintaining prompts.** Testing and evaluating prompts, retesting when the model changes, building a prompt and skill library, and the habits of ChatGPT, Claude, Gemini, Copilot and Perplexity.
 
-**50+ reusable prompt patterns,** cross-platform comparison tables, a glossary, and curated further reading in the appendices.
+**Reference.** 60 reusable prompt patterns, including new ones for agents, skills and research, plus cross-platform comparisons, a glossary, and curated resources.
 
-Every example was tested on real platforms — ChatGPT (GPT-5.3, GPT-5.4 Thinking, GPT-5.5), Claude (Sonnet 4.6 and Opus 4.7), and Gemini (3 Pro, 3 Flash, 3.1 Pro). The book is honest about non-determinism: the patterns are reliable even when individual outputs vary.
+The book is honest about what AI does and doesn't do well, and about non-determinism: the *patterns* are reliable even when individual outputs vary.
 
-If you are still typing "please" and "thank you" to AI just in case — this book will teach you to spend those tokens on results instead.
-
-Includes coverage of GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro, structured output, agentic prompting, and every 2026 platform's quirks.
+**The 2027 Edition is revised throughout for late 2026: thinking models and effort settings, agents in every major assistant, skills and AGENTS.md files, memory and context engineering, and the GPT-6, Claude 5.5 and Gemini 4 model families.**

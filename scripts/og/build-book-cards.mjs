@@ -5,6 +5,7 @@
 //
 //   node scripts/og/build-book-cards.mjs            (all books below)
 //   node scripts/og/build-book-cards.mjs codex      (one, by slug)
+//   node scripts/og/build-book-cards.mjs --from-content   (every book, from its frontmatter)
 //
 // Data-light on purpose: the per-book metadata is listed here so the script
 // runs without parsing content frontmatter. Add a row to BOOKS for new books.
@@ -14,6 +15,7 @@ import sharp from 'sharp'
 import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import yaml from 'js-yaml'
 
 const PROJECT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const FONT_DIR = path.join(PROJECT, 'scripts', 'og', 'fonts')
@@ -85,7 +87,7 @@ function cardSvg(book) {
   <rect x="0" y="0" width="${W}" height="${BAR_H}" fill="${book.accent}"/>
   <text x="${W / 2}" y="${Math.round(BAR_H / 2) + 16}" text-anchor="middle" fill="${COLOR.white}" font-family="Source Serif 4" font-weight="700" font-size="38" letter-spacing="8">FINNOYBU PRESS &#183; AI FOR EVERYONE</text>
 
-  <text x="${COL_X}" y="320" fill="${book.accent}" font-family="Source Serif 4" font-weight="700" font-size="40" letter-spacing="6">BOOK ${book.num} &#183; 2026 EDITION</text>
+  <text x="${COL_X}" y="320" fill="${book.accent}" font-family="Source Serif 4" font-weight="700" font-size="40" letter-spacing="6">BOOK ${book.num} &#183; ${escapeXml((book.edition || '2026 Edition').toUpperCase())}</text>
   ${titleTspans}
   <text x="${COL_X}" y="${subtitleY}" fill="${COLOR.ink700}" font-family="Source Serif 4" font-style="italic" font-weight="400" font-size="54">${escapeXml(book.subtitle)}</text>
   <text x="${COL_X}" y="${authorY}" fill="${COLOR.ink700}" font-family="Source Serif 4" font-style="italic" font-weight="400" font-size="46">by Ken Tannenbaum</text>
@@ -129,10 +131,27 @@ async function buildBook(book) {
   console.log(`wrote ${path.relative(PROJECT, out)}`)
 }
 
+// --from-content: build a card for every book from its content frontmatter
+// (cover_image, title, subtitle, accent_color). The eyebrow names the edition
+// the cover shows: the newer edition when the cover is its -<year> image.
+function booksFromContent() {
+  const dir = path.join(PROJECT, 'src', 'content', 'books')
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.md')).map((f) => {
+    const text = fs.readFileSync(path.join(dir, f), 'utf8').replace(/\r\n/g, '\n')
+    const d = yaml.load(text.match(/^---\n([\s\S]*?)\n---/)[1])
+    const file = path.basename(d.cover_image)
+    const year = d.newer_edition && (d.newer_edition.edition.match(/\d{4}/) || [])[0]
+    const edition = year && file.includes(`-${year}.`) ? d.newer_edition.edition : (d.edition || '2026 Edition')
+    return { num: d.number, file, title: d.title, subtitle: d.subtitle, accent: d.accent_color, edition }
+  }).sort((a, b) => a.num - b.num)
+}
+
 async function main() {
   fs.mkdirSync(OG_OUT, { recursive: true })
-  const only = process.argv[2]
-  const list = only ? BOOKS.filter((b) => b.file.includes(only)) : BOOKS
+  const fromContent = process.argv.includes('--from-content')
+  const only = process.argv.slice(2).find((a) => !a.startsWith('--'))
+  const all = fromContent ? booksFromContent() : BOOKS
+  const list = only ? all.filter((b) => b.file.includes(only)) : all
   if (!list.length) throw new Error(`No book matched "${only}"`)
   for (const b of list) await buildBook(b)
 }

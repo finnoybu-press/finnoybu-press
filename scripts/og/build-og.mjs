@@ -174,28 +174,28 @@ const CARDS = [
     file: 'home.jpg',
     eyebrow: 'Finnoybu Press',
     title: 'Practical AI\nfor everyone.',
-    tagline: 'Twenty-eight books on ChatGPT, Claude, Gemini, Copilot, and the cross-platform skills behind useful AI.',
+    tagline: 'Twenty-nine books on ChatGPT, Claude, Gemini, Copilot, and the cross-platform skills behind useful AI.',
     accent: COLOR.seriesNeutral,
     covers: [
-      'cover-01-chatgpt-definitive.jpg',
-      'cover-03-claude-definitive.jpg',
-      'cover-05-gemini-complete.jpg',
-      'cover-07-copilot-workplace.jpg',
-      'cover-09-perplexity-research.jpg',
+      'cover-01-chatgpt-definitive-2027.jpg',
+      'cover-03-claude-definitive-2027.jpg',
+      'cover-05-gemini-complete-2027.jpg',
+      'cover-07-copilot-workplace-2027.jpg',
+      'cover-09-perplexity-research-2027.jpg',
     ],
   },
   {
     file: 'series.jpg',
     eyebrow: 'The Series',
     title: 'AI for\nEveryone.',
-    tagline: 'Twenty-eight practical books on AI tools, skills, and systems — from your first conversation to fielded governance.',
+    tagline: 'Twenty-nine practical books on AI tools, skills, and systems, from your first conversation to fielded governance.',
     accent: COLOR.seriesNeutral,
     covers: [
-      'cover-01-chatgpt-definitive.jpg',
-      'cover-05-gemini-complete.jpg',
-      'cover-11-notebooklm.jpg',
-      'cover-16-ai-prompt-engineering.jpg',
-      'cover-20-ai-governance.jpg',
+      'cover-01-chatgpt-definitive-2027.jpg',
+      'cover-05-gemini-complete-2027.jpg',
+      'cover-11-notebooklm-2027.jpg',
+      'cover-16-ai-prompt-engineering-2027.jpg',
+      'cover-20-ai-governance-2027.jpg',
     ],
   },
   {
@@ -205,11 +205,11 @@ const CARDS = [
     tagline: 'Comprehensive paired guides for ChatGPT, Claude, Gemini, Copilot, and Perplexity — definitive plus advanced.',
     accent: COLOR.deepDives,
     covers: [
-      'cover-01-chatgpt-definitive.jpg',
-      'cover-03-claude-definitive.jpg',
-      'cover-05-gemini-complete.jpg',
-      'cover-07-copilot-workplace.jpg',
-      'cover-09-perplexity-research.jpg',
+      'cover-01-chatgpt-definitive-2027.jpg',
+      'cover-03-claude-definitive-2027.jpg',
+      'cover-05-gemini-complete-2027.jpg',
+      'cover-07-copilot-workplace-2027.jpg',
+      'cover-09-perplexity-research-2027.jpg',
     ],
   },
   {
@@ -219,10 +219,10 @@ const CARDS = [
     tagline: 'Single-volume guides for the next wave — research, reasoning, code, and agentic work.',
     accent: COLOR.productGuides,
     covers: [
-      'cover-11-notebooklm.jpg',
-      'cover-12-deepseek.jpg',
-      'cover-13-cursor.jpg',
-      'cover-14-openclaw.jpg',
+      'cover-11-notebooklm-2027.jpg',
+      'cover-12-deepseek-2027.jpg',
+      'cover-13-cursor-2027.jpg',
+      'cover-14-openclaw-2027.jpg',
     ],
   },
   {
@@ -232,11 +232,11 @@ const CARDS = [
     tagline: 'The skills that hold the rest together — prompting, business, developer, governance, and security.',
     accent: COLOR.crossPlatform,
     covers: [
-      'cover-15-ai-systems-playbook.jpg',
-      'cover-17-ai-for-developers.jpg',
-      'cover-19-ai-for-students.jpg',
-      'cover-20-ai-governance.jpg',
-      'cover-21-securing-agentic-ai.jpg',
+      'cover-15-ai-systems-playbook-2027.jpg',
+      'cover-17-ai-for-developers-2027.jpg',
+      'cover-19-ai-for-students-2027.jpg',
+      'cover-20-ai-governance-2027.jpg',
+      'cover-21-securing-agentic-ai-2027.jpg',
     ],
   },
   {
@@ -246,22 +246,23 @@ const CARDS = [
     tagline: 'Four more single-product guides — OpenAI Codex, xAI Grok, Mistral, and DeepL.',
     accent: COLOR.productGuides,
     covers: [
-      'cover-22-codex.jpg',
-      'cover-23-grok.jpg',
-      'cover-24-mistral-vibe.jpg',
-      'cover-25-deepl.jpg',
+      'cover-22-codex-2027.jpg',
+      'cover-23-grok-2027.jpg',
+      'cover-24-mistral-vibe-2027.jpg',
+      'cover-25-deepl-2027.jpg',
     ],
   },
   {
     file: 'capability-set.jpg',
-    eyebrow: 'The Extended Series · Books 26–28',
+    eyebrow: 'The Extended Series · Books 26–29',
     title: 'The Capability\nSet.',
-    tagline: 'Automating your work, building apps without code, and using AI with judgment.',
+    tagline: 'Automating your work, building apps without code, using AI with judgment, and 3D modeling with AI.',
     accent: COLOR.crossPlatform,
     covers: [
-      'cover-26-automate-your-work.jpg',
-      'cover-27-build-apps-without-code.jpg',
-      'cover-28-ai-literacy.jpg',
+      'cover-26-automate-your-work-2027.jpg',
+      'cover-27-build-apps-without-code-2027.jpg',
+      'cover-28-ai-literacy-2027.jpg',
+      'cover-29-ai-for-3d-modeling.jpg',
     ],
   },
   {
@@ -377,7 +378,7 @@ async function buildFavicons() {
 async function main() {
   fs.mkdirSync(OG_OUT, { recursive: true })
   for (const card of CARDS) await buildCard(card)
-  await buildFavicons()
+  if (!process.argv.includes('--cards-only')) await buildFavicons()
 }
 
 main().catch((err) => {

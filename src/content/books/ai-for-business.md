@@ -8,10 +8,11 @@ collection: cross-platform-skills
 cover_variant: skills
 
 accent_color: "#2D7D46"
-cover_image: /images/cover-18-ai-for-business.jpg
-cover_thumb: /images/thumbs/cover-18-ai-for-business.jpg
+cover_image: /images/cover-18-ai-for-business-2027.jpg
+cover_thumb: /images/thumbs/cover-18-ai-for-business-2027.jpg
+edition_cover_thumb: /images/thumbs/cover-18-ai-for-business.jpg
 
-description: AI strategies for every department — marketing, sales, HR, finance, legal, and operations. 50+ use cases and ROI frameworks.
+description: "Skip the hype and learn what AI can actually do for your business, starting this week. A practical guide to AI-powered productivity, agents, and responsible adoption for managers, teams, and decision-makers."
 chapter_count: 23
 page_estimate: "~230"
 
@@ -46,28 +47,26 @@ newer_edition:
 status: published
 ---
 
-Your inbox has 47 unread messages. You have a quarterly report due Friday and a board presentation next Tuesday. Meanwhile, your CEO mentioned AI at the last all-hands, your competitors are slapping "AI-powered" on everything, and your twenty-something colleague casually mentions they "had Claude write the first draft." You are not entirely sure whether to be impressed or concerned.
+**You don't need another AI hype piece. You need to know what AI can actually do for your business, starting this week.**
 
-*AI for Business* is the practical, department-by-department, task-by-task guide to using AI effectively at work. It is not a technical book. It is not a hype piece. It is not a deep dive into a single product. It is a strategic, tool-agnostic playbook for managers, individual contributors, executives, and entrepreneurs who want measurable productivity gains without creating new risks.
+Your inbox has 47 unread messages. You have a quarterly report due Friday and a board presentation next Tuesday. Meanwhile, every AI tool you already pay for just learned to act on its own: drafting, filing, scheduling, and sending. Your vendors are selling agents and credits. Your team is asking what they are allowed to use. And nobody has told you what to do on Monday morning.
+
+**AI for Business** is the practical, department-by-department, task-by-task guide to using AI effectively at work. It is not a technical book, a hype piece, or a deep dive into a single product. It is a tool-agnostic playbook for managers, individual contributors, executives, and entrepreneurs who want measurable productivity gains without creating new risks.
 
 ## What's inside
 
-**The strategic foundations.** Understand AI at work in 2026, choose the right tools for your team, and calculate the real ROI of AI adoption — not the marketing-deck version.
+**The business case.** Where AI stands at work today, how to choose among ChatGPT, Claude, Gemini, Copilot, and Perplexity with current plans and prices, and how to measure the real return, including what controlled research has actually found.
 
-**AI for everyday business work.** Concrete chapters on email and communication, meetings and collaboration, reports and documents, presentations, data analysis, and market research — with prompt templates you can use today.
+**AI for everyday work.** Email (including letting AI work safely inside your inbox), meetings, reports, presentations, data analysis, and market research with deep research modes, with copy-ready prompts throughout.
 
-**AI by department.** Targeted chapters for marketing, sales, HR, finance, legal and compliance, project management, and strategy — written for the specific decisions and deliverables each function owns.
+**AI by department.** Marketing, sales, HR, finance, legal, project management, and strategy, covering the agents now built into CRM, accounting, and project tools and the rules on AI in hiring, reviews, and legal citations.
 
-**AI in the platforms you already pay for.** Practical coverage of Microsoft 365 Copilot and Google Workspace AI, plus how to build durable AI workflows that survive when the underlying tools change.
+**AI in the platforms you already pay for.** Copilot in Microsoft 365, including Cowork and agents; Gemini across Google Workspace; and how to build team workflows and decide how far to automate them.
 
-**The hard parts of adoption.** Managing change in real organizations, building team AI fluency, choosing vendors without getting captured, and writing AI policies that people actually follow.
+**The hard parts of adoption.** Rolling out AI, and then agents, to real teams; corrected privacy defaults; the 2026 changes to the EU AI Act and state laws; governing connectors; and who is responsible when your chatbot makes a promise.
 
-**Privacy, security, compliance, and ethics.** Honest, lawyer-friendly chapters your legal and IT teams will thank you for.
+**Desk references.** 70 use cases, 48 prompt templates, a current tool comparison, a glossary, and further resources.
 
-**Future-proofing your career.** What stays valuable when everyone has AI, and how to stay ahead without becoming an AI specialist.
+**23 chapters. An epilogue. 5 appendices. Zero jargon. Written for the work you actually do.**
 
-**A complete use-case library, prompt templates, and tool comparisons** in five appendices designed as desk references.
-
-24 chapters. 5 appendices. Zero jargon. Written for the work you actually do.
-
-If you produce some combination of emails, documents, spreadsheets, presentations, and decisions — this book is for you.
+**The 2027 Edition is revised throughout for late 2026: agents in every major platform, rewritten plans and prices, honest productivity research in place of marketing numbers, corrected privacy guidance, and new chapters' worth of material on agents, automation, and the laws that now apply.**
