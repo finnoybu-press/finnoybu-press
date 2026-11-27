@@ -5,6 +5,7 @@
 // individually-cart'd items it subsumes.
 import { BUNDLES, bundleTotalCents } from '../lib/bundles';
 import { getCollection } from 'astro:content';
+import { bundleProducts } from '../lib/editions';
 
 interface Props {
   bundleId: string;
@@ -22,10 +23,12 @@ function priceCents(s: string): number {
   return c ? Math.round(parseFloat(c) * 100) : 0;
 }
 
-const bookCatalog = allBooks.map((b) => {
-  const fmt = b.data.formats.find((f: any) => f.type === 'pdf-epub');
-  return { slug: b.id, number: b.data.number, price_cents: priceCents(fmt?.price ?? '') };
-});
+// Each book's newest edition sold direct (the 2027 Edition).
+const bookCatalog = bundleProducts(allBooks).map((p) => ({
+  slug: p.slug,
+  number: p.number,
+  price_cents: priceCents(p.price),
+}));
 const toolkitCatalog = allToolkits.map((t) => {
   const fmt = t.data.formats.find((f: any) => f.type === 'pdf-epub');
   return { slug: t.id, number: t.data.number, price_cents: priceCents(fmt?.price ?? '') };
@@ -48,7 +51,7 @@ const includedShort = bundle.bookNumbers.length > 0 && bundle.toolkitSlugs.lengt
     <p class="eyebrow">Bundle · Save {bundle.discountPercent}%</p>
     <h2>{bundle.label}</h2>
     <p class="bundle-desc">{bundle.description}</p>
-    <p class="bundle-meta">{includedShort} · 2026 Edition PDF + ePub</p>
+    <p class="bundle-meta">{includedShort} · 2027 Edition PDF + ePub</p>
   </div>
   <div class="bundle-price-block">
     <p class="bundle-strike">{fmtCents(totals.gross_cents)}</p>

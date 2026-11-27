@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SignInModal from '../components/SignInModal.astro';
 import { getCollection } from 'astro:content';
 import { BUNDLES, bundleTotalCents } from '../lib/bundles';
-import { allDirectProducts } from '../lib/editions';
+import { allDirectProducts, bundleProducts } from '../lib/editions';
 
 export const prerender = false;
 
@@ -49,9 +49,10 @@ const toolkitsForClient = allToolkits.map((t) => {
 });
 
 // Resolve bundles for the client — include slugs + computed prices.
+// Bundles include each book's newest edition sold direct (the 2027 Edition).
+const bundleSlugs = new Set(bundleProducts(allBooks).map((p) => p.slug));
 const bundlesForClient = BUNDLES.map((b) => {
-  // Bundles cover each book's own edition only, never a newer edition.
-  const totals = bundleTotalCents(b, booksForClient.filter((x) => !x.is_newer), toolkitsForClient);
+  const totals = bundleTotalCents(b, booksForClient.filter((x) => bundleSlugs.has(x.slug)), toolkitsForClient);
   return {
     id: b.id,
     label: b.label,
@@ -130,8 +131,8 @@ const bundlesForClient = BUNDLES.map((b) => {
     const toolkitMap = new Map(toolkits.map((t) => [t.slug, t]));
     const bundleMap = new Map(bundles.map((b) => [b.id, b]));
 
-    // Drop saved books and bundles that are no longer sold here (e.g. a newer
-    // edition's PDF/ePub once its Kindle edition goes into KDP Select), so
+    // Drop saved books and bundles that are no longer sold here (e.g. a 2026
+    // Edition PDF/ePub now that its Kindle edition is in KDP Select), so
     // checkout doesn't fail on them.
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');

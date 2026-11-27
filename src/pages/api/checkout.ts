@@ -8,7 +8,7 @@ import {
   DIGITAL_BUNDLE_PRODUCT_ID,
 } from '~/lib/stripe';
 import { BUNDLES, bundleTotalCents } from '~/lib/bundles';
-import { findDirectProduct } from '~/lib/editions';
+import { bundleProducts, findDirectProduct } from '~/lib/editions';
 
 export const prerender = false;
 
@@ -54,10 +54,12 @@ export const POST: APIRoute = async (ctx) => {
   const toolkits = await getCollection('toolkits');
   const toolkitMap = new Map(toolkits.map((t) => [t.id, t]));
 
-  const bookCatalog = books.map((b) => {
-    const fmt = b.data.formats.find((f) => f.type === DIGITAL_BUNDLE_PRODUCT_ID);
-    return { slug: b.id, number: b.data.number, price_cents: priceStringToCents(fmt?.price ?? '') };
-  });
+  // Bundles include each book's newest edition sold direct (the 2027 Edition).
+  const bookCatalog = bundleProducts(books).map((p) => ({
+    slug: p.slug,
+    number: p.number,
+    price_cents: priceStringToCents(p.price),
+  }));
   const toolkitCatalog = toolkits.map((t) => {
     const fmt = t.data.formats.find((f) => f.type === DIGITAL_BUNDLE_PRODUCT_ID);
     return { slug: t.id, number: t.data.number, price_cents: priceStringToCents(fmt?.price ?? '') };
