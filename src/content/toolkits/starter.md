@@ -10,7 +10,7 @@ accent_color: "#0084e7"
 cover_image: /images/cover-aegis-smb-starter.png
 cover_thumb: /images/thumb-aegis-smb-starter.png
 
-description: Get your AI governance basics in place this week. Three fill-in-the-blank documents plus a technical whitepaper give you an acceptable use policy, a vendor risk checklist, and a readiness score — everything you need to answer "what's our AI policy?" without hiring a consultant.
+description: Get your AI governance basics in place this week. Three fill-in-the-blank documents plus a technical whitepaper give you an acceptable use policy, a vendor risk checklist, and a readiness score. That is everything you need to answer "what's our AI policy?" without hiring a consultant.
 doc_count: 4
 docs:
   - Acceptable Use Policy (fill-in-the-blank template)

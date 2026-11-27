@@ -10,7 +10,7 @@ accent_color: "#6b2adb"
 cover_image: /images/cover-aegis-enterprise.png
 cover_thumb: /images/thumb-aegis-enterprise.png
 
-description: The complete enterprise package. Four operational documents grounded in the ATX-1 threat taxonomy and AEGIS implementation framework — practitioner workbook, readiness assessment, threat-mapping template, and policy pack — plus the AEGIS technical whitepaper they reference and the two companion books for governance and security teams operationalizing autonomous AI.
+description: The complete enterprise package. Four operational documents grounded in the ATX-1 threat taxonomy and AEGIS implementation framework (practitioner workbook, readiness assessment, threat-mapping template, and policy pack), plus the AEGIS technical whitepaper they reference and the two companion books for governance and security teams operationalizing autonomous AI.
 doc_count: 7
 docs:
   - ATX-1 Practitioner Workbook (DOCX)
@@ -18,8 +18,8 @@ docs:
   - ATX-1 Threat Mapping Template (DOCX)
   - AI Agent Governance Policy Pack (DOCX)
   - Technical Whitepaper (PDF)
-  - AI Governance for Practitioners — Book Twenty (PDF)
-  - Securing Agentic AI — Book Twenty-One (PDF)
+  - AI Governance for Practitioners, Book Twenty, 2027 Edition (PDF)
+  - Securing Agentic AI, Book Twenty-One, 2027 Edition (PDF)
 
 formats:
   - type: pdf-epub
