@@ -1,6 +1,16 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// One buy option on a book page. `was_price` shows struck through before
+// `price` (a sale price).
+const bookFormat = z.object({
+  type: z.enum(['pdf-epub', 'kindle', 'paperback']),
+  label: z.string(),                               // e.g. "PDF / EPUB"
+  price: z.string(),                               // e.g. "$5.99"
+  was_price: z.string().optional(),                // e.g. "$7.99"
+  url: z.string().url().optional(),                // missing url = "coming soon" (except pdf-epub, sold via the cart)
+});
+
 const books = defineCollection({
   // Astro 6 Content Layer API. `id` is the filename without extension
   // (e.g. chatgpt-definitive.md → "chatgpt-definitive"), matching the slugs
@@ -42,25 +52,17 @@ const books = defineCollection({
     page_estimate: z.string().nullable(),          // "~240" or null
 
     // Buy links
-    formats: z.array(z.object({
-      type: z.enum(['pdf-epub', 'kindle', 'paperback']),
-      label: z.string(),                           // e.g. "PDF / EPUB"
-      price: z.string(),                           // e.g. "$7.99"
-      url: z.string().url().optional(),            // missing url = "coming soon"
-    })),
+    formats: z.array(bookFormat),
 
-    // A newer edition sold through Amazon only (its Kindle edition is in
-    // KDP Select, so it is never sold direct). Shown above `formats`, which
-    // stay the edition sold here. Formats without a url show "Coming soon".
+    // A newer edition, shown above `formats` (which describe `edition`).
+    // Its PDF/EPUB is sold direct only while it is not on Amazon: once its
+    // Kindle edition goes into KDP Select, drop the pdf-epub entry. Direct
+    // purchases of it use the slug `<book id>-<edition year>` (lib/editions.ts).
+    // Formats without a url (and not pdf-epub) show "Coming soon".
     newer_edition: z.object({
       edition: z.string(),                         // e.g. "2027 Edition"
       chapter_count: z.number().int().nullable().optional(),
-      formats: z.array(z.object({
-        type: z.enum(['kindle', 'paperback']),
-        label: z.string(),
-        price: z.string(),
-        url: z.string().url().optional(),
-      })),
+      formats: z.array(bookFormat),
     }).optional(),
 
     // Editorial extras

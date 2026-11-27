@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SignInModal from '../components/SignInModal.astro';
 import { getCollection } from 'astro:content';
 import { BUNDLES, bundleTotalCents } from '../lib/bundles';
+import { allDirectProducts } from '../lib/editions';
 
 export const prerender = false;
 
@@ -17,20 +18,21 @@ function priceCents(priceStr: string): number {
 const allBooks = await getCollection('books');
 const allToolkits = await getCollection('toolkits');
 
-// Catalog data for client — includes book number for sort + cover for render.
-const booksForClient = allBooks.map((b) => {
-  const bundle = b.data.formats.find((f: any) => f.type === 'pdf-epub');
-  return {
-    slug: b.id,
-    number: b.data.number,
-    title: b.data.title,
-    subtitle: b.data.subtitle,
-    cover_thumb: b.data.edition_cover_thumb || b.data.cover_thumb || b.data.cover_image,
-    accent_color: b.data.accent_color,
-    price_cents: priceCents(bundle?.price ?? ''),
-    edition: b.data.edition,
-  };
-});
+// Catalog data for client: one entry per direct PDF/ePub product (a book's
+// own edition, plus its newer edition while that is sold here), keyed by
+// purchase slug. Includes book number for sort + cover for render.
+const booksForClient = allDirectProducts(allBooks).map((p) => ({
+  slug: p.slug,
+  page: p.book.id,
+  number: p.number,
+  title: p.book.data.title,
+  subtitle: p.book.data.subtitle,
+  cover_thumb: p.coverThumb,
+  accent_color: p.book.data.accent_color,
+  price_cents: priceCents(p.price),
+  edition: p.edition,
+  is_newer: p.isNewer,
+}));
 
 const toolkitsForClient = allToolkits.map((t) => {
   const bundle = t.data.formats.find((f: any) => f.type === 'pdf-epub');
@@ -48,7 +50,8 @@ const toolkitsForClient = allToolkits.map((t) => {
 
 // Resolve bundles for the client — include slugs + computed prices.
 const bundlesForClient = BUNDLES.map((b) => {
-  const totals = bundleTotalCents(b, booksForClient, toolkitsForClient);
+  // Bundles cover each book's own edition only, never a newer edition.
+  const totals = bundleTotalCents(b, booksForClient.filter((x) => !x.is_newer), toolkitsForClient);
   return {
     id: b.id,
     label: b.label,
@@ -126,6 +129,21 @@ const bundlesForClient = BUNDLES.map((b) => {
     const bookMap = new Map(books.map((b) => [b.slug, b]));
     const toolkitMap = new Map(toolkits.map((t) => [t.slug, t]));
     const bundleMap = new Map(bundles.map((b) => [b.id, b]));
+
+    // Drop saved books and bundles that are no longer sold here (e.g. a newer
+    // edition's PDF/ePub once its Kindle edition goes into KDP Select), so
+    // checkout doesn't fail on them.
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (Array.isArray(saved)) {
+        const kept = saved.filter((it) => !it || typeof it !== 'object' || it.kind === 'toolkit'
+          || (it.kind === 'bundle' ? bundleMap.has(it.bundleId) : bookMap.has(it.slug)));
+        if (kept.length !== saved.length) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(kept));
+          window.dispatchEvent(new Event(CHANGE_EVENT));
+        }
+      }
+    } catch {}
 
     function readCart() {
       try {
@@ -245,11 +263,11 @@ const bundlesForClient = BUNDLES.map((b) => {
           const li = document.createElement('li');
           li.className = 'cart-item';
           li.innerHTML = `
-            <a href="/books/${book.slug}" class="cart-cover" aria-label="${escapeHtml(book.title)}">
+            <a href="/books/${book.page}" class="cart-cover" aria-label="${escapeHtml(book.title)}">
               <img src="${escapeHtml(book.cover_thumb)}" alt="${escapeHtml(book.title)} cover" loading="lazy" />
             </a>
             <div class="cart-meta">
-              <a href="/books/${book.slug}" class="cart-title">${escapeHtml(book.title)}: ${escapeHtml(book.subtitle)}</a>
+              <a href="/books/${book.page}" class="cart-title">${escapeHtml(book.title)}: ${escapeHtml(book.subtitle)}</a>
               <p class="cart-availability">In stock, instant download</p>
               <p class="cart-format">${escapeHtml(book.edition)} · PDF + ePub digital bundle</p>
               <div class="cart-actions">

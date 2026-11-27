@@ -1,0 +1,127 @@
+---
+// The buy options for one edition of a book (desktop; mobile uses
+// MobileBuyBar). PDF/EPUB is an add-to-cart button for `cartSlug` (the
+// page script in books/[slug].astro wires it); the rest link out to Amazon.
+interface Format {
+  type: string;
+  label: string;
+  price: string;
+  was_price?: string;
+  url?: string;
+}
+interface Props {
+  formats: Format[];
+  cartSlug: string;
+}
+const { formats, cartSlug } = Astro.props;
+---
+<div class="formats">
+  {formats.map((f) => (
+    f.type === 'pdf-epub' ? (
+      <button type="button" class="format format-cart" data-type={f.type} data-add-to-cart data-slug={cartSlug}>
+        <span class="format-type">{f.label}</span>
+        <span class="format-price" data-cart-price>
+          {f.was_price && <s class="was-price">{f.was_price}</s>}
+          {f.price}
+        </span>
+      </button>
+    ) : (
+      <a
+        href={f.url ?? '#'}
+        target={f.url ? '_blank' : undefined}
+        rel={f.url ? 'noopener' : undefined}
+        class={`format ${!f.url ? 'unavailable' : ''}`}
+        data-type={f.type}
+        aria-disabled={!f.url}
+      >
+        <span class="format-type">{f.label}</span>
+        <span class="format-price">{f.url ? f.price : 'Coming soon'}</span>
+      </a>
+    )
+  ))}
+</div>
+
+<style>
+  /* ---------- Formats (desktop only — mobile uses MobileBuyBar) ---------- */
+  .formats {
+    display: none;
+    gap: 0.625rem;
+    margin-top: var(--space-3);
+  }
+
+  /* Desktop: 2-col grid. PDF/EPUB spans full row, kindle/paperback share row 2. */
+  @media (min-width: 768px) {
+    .formats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .format {
+    display: flex;
+    flex-direction: column;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--ink-200);
+    background: var(--paper);
+    color: var(--ink-900);
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    min-width: 130px;
+    /* Reset native button styles for the cart-trigger variant */
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .format:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+  .format.unavailable { color: var(--ink-300); cursor: default; pointer-events: none; }
+
+  /* PDF/EPUB always spans full width above the kindle/paperback row */
+  .format[data-type="pdf-epub"] {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+  }
+
+  /* In-cart state: subtle inversion so it's visually distinct from "add" */
+  .format-cart.in-cart {
+    background: var(--accent-color);
+  }
+  .format-cart.in-cart .format-type,
+  .format-cart.in-cart .format-price {
+    color: var(--paper);
+  }
+
+  /* Primary CTA — PDF/EPUB stands out via accent-tinted background */
+  .format[data-type="pdf-epub"]:not(.in-cart) {
+    background: color-mix(in srgb, var(--accent-color) 18%, var(--paper));
+    border-color: var(--accent-color);
+  }
+  .format[data-type="pdf-epub"]:not(.in-cart):hover {
+    background: color-mix(in srgb, var(--accent-color) 28%, var(--paper));
+  }
+  .format[data-type="pdf-epub"]:not(.in-cart) .format-type,
+  .format[data-type="pdf-epub"]:not(.in-cart) .format-price {
+    color: var(--accent-color);
+  }
+
+  .format-type {
+    font-size: 0.75rem;
+    color: var(--ink-500);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .format-price {
+    font-family: var(--serif);
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-top: 0.15rem;
+  }
+
+  .was-price {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: var(--ink-500);
+    margin-right: 0.35em;
+    text-decoration-thickness: 1px;
+  }
+  .format-cart.in-cart .was-price { display: none; }
+</style>

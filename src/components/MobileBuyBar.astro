@@ -6,6 +6,7 @@ interface Format {
   type: string;
   label: string;
   price: string;
+  was_price?: string;
   url?: string;
 }
 
@@ -15,17 +16,20 @@ interface Props {
   itemNoun?: string;
   edition?: string;                        // label for `formats` when a newer edition is listed above them
   newerEdition?: { edition: string; formats: Format[] };
-  cartSlug?: string;                       // books: PDF/EPUB becomes an add-to-cart button (the page script wires it)        // for the CTA label ("Buy this <noun>"), defaults to "book"
+  cartSlug?: string;
+  newerCartSlug?: string;                  // cart slug for the newer edition's PDF/EPUB                       // books: PDF/EPUB becomes an add-to-cart button (the page script wires it)        // for the CTA label ("Buy this <noun>"), defaults to "book"
 }
 
-const { title, formats, itemNoun = 'book', edition, newerEdition, cartSlug } = Astro.props;
+const { title, formats, itemNoun = 'book', edition, newerEdition, cartSlug, newerCartSlug } = Astro.props;
 const groups = newerEdition
-  ? [{ label: newerEdition.edition, formats: newerEdition.formats }, { label: edition, formats }]
-  : [{ label: undefined, formats }];
+  ? [{ label: newerEdition.edition, formats: newerEdition.formats, slug: newerCartSlug }, { label: edition, formats, slug: cartSlug }]
+  : [{ label: undefined, formats, slug: cartSlug }];
 
-// Find the cheapest with a URL (fallback to first format)
-const available = [...(newerEdition?.formats ?? []), ...formats].filter((f) => f.url);
-const primary = available[0] ?? formats[0];
+// "From" shows the cheapest format that can be bought now: one with a link,
+// or a PDF/EPUB sold through the cart. Falls back to the first format.
+const buyable = groups.flatMap((g) => g.formats.filter((f) => f.url || (f.type === 'pdf-epub' && g.slug)));
+const toNum = (p: string) => parseFloat(p.replace(/[^0-9.]/g, '')) || Infinity;
+const primary = buyable.sort((a, b) => toNum(a.price) - toNum(b.price))[0] ?? formats[0];
 ---
 {formats.length > 0 && (
   <>
@@ -51,10 +55,10 @@ const primary = available[0] ?? formats[0];
             <ul class="sheet-formats">
               {g.formats.map((f) => (
                 <li>
-                  {f.type === 'pdf-epub' && cartSlug ? (
-                    <button type="button" class="sheet-format sheet-cart" data-type={f.type} data-add-to-cart data-slug={cartSlug}>
+                  {f.type === 'pdf-epub' && g.slug ? (
+                    <button type="button" class="sheet-format sheet-cart" data-type={f.type} data-add-to-cart data-slug={g.slug}>
                       <span class="format-type">{f.label}</span>
-                      <span class="format-price" data-cart-price>{f.price}</span>
+                      <span class="format-price" data-cart-price>{f.was_price && <s class="was-price">{f.was_price}</s>}{f.price}</span>
                     </button>
                   ) : f.url ? (
                     <a href={f.url} target="_blank" rel="noopener" class="sheet-format">
@@ -208,6 +212,11 @@ const primary = available[0] ?? formats[0];
     text-align: left;
     cursor: pointer;
     background: var(--paper);
+  }
+  .was-price {
+    font-weight: 400;
+    color: var(--ink-500);
+    margin-right: 0.4em;
   }
   .sheet-edition {
     margin: 0.75rem 0 0.35rem;

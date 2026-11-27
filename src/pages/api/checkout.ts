@@ -8,6 +8,7 @@ import {
   DIGITAL_BUNDLE_PRODUCT_ID,
 } from '~/lib/stripe';
 import { BUNDLES, bundleTotalCents } from '~/lib/bundles';
+import { findDirectProduct } from '~/lib/editions';
 
 export const prerender = false;
 
@@ -51,7 +52,6 @@ export const POST: APIRoute = async (ctx) => {
 
   const books = await getCollection('books');
   const toolkits = await getCollection('toolkits');
-  const bookMap = new Map(books.map((b) => [b.id, b]));
   const toolkitMap = new Map(toolkits.map((t) => [t.id, t]));
 
   const bookCatalog = books.map((b) => {
@@ -78,18 +78,19 @@ export const POST: APIRoute = async (ctx) => {
 
   for (const item of items) {
     if (item.kind === 'book') {
-      const book = bookMap.get(item.slug);
-      if (!book) return Response.json({ error: `Unknown book: ${item.slug}` }, { status: 400 });
-      const fmt = book.data.formats.find((f) => f.type === DIGITAL_BUNDLE_PRODUCT_ID);
-      if (!fmt) return Response.json({ error: `No PDF/EPUB bundle for: ${item.slug}` }, { status: 400 });
-      const cents = priceStringToCents(fmt.price);
+      // item.slug is a purchase slug: the book id (its `edition`) or
+      // `<book id>-<year>` for a newer edition sold direct (lib/editions.ts).
+      const product = findDirectProduct(books, item.slug);
+      if (!product) return Response.json({ error: `This book is not sold here: ${item.slug}` }, { status: 400 });
+      const book = product.book;
+      const cents = priceStringToCents(product.price);
       if (!cents) return Response.json({ error: `Invalid price for: ${item.slug}` }, { status: 400 });
       lineItems.push({
         price_data: {
           currency: DIGITAL_BUNDLE_CURRENCY,
           unit_amount: cents,
           product_data: {
-            name: `${book.data.title}: ${book.data.subtitle}, PDF & ePub (${book.data.edition})`,
+            name: `${book.data.title}: ${book.data.subtitle}, PDF & ePub (${product.edition})`,
             metadata: { item_slug: item.slug, item_kind: 'book' },
           },
         },
