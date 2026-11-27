@@ -33,7 +33,8 @@ const toolkitMap = new Map(allToolkits.map((t) => [t.id, t]));
 // Deduplicate by slug — an item bought via both a bundle and standalone
 // shows up once in the library.
 type OwnedItem = {
-  slug: string;
+  slug: string;   // purchase slug (download key)
+  page: string;   // detail page slug
   kind: 'book' | 'toolkit';
   data: any;
   purchased_at: Date;
@@ -46,9 +47,21 @@ const owned: OwnedItem[] = ownedSlugs
       .filter((p) => p.bookSlug === slug)
       .reduce((a, b) => (a.createdAt < b.createdAt ? a : b));
     const book = bookMap.get(slug);
-    if (book) return { slug, kind: 'book', data: book.data, purchased_at: earliest.createdAt };
+    if (book) {
+      const data = { ...book.data, cover_thumb: book.data.edition_cover_thumb || book.data.cover_thumb, edition_label: book.data.edition };
+      return { slug, page: slug, kind: 'book', data, purchased_at: earliest.createdAt };
+    }
+    // A newer edition bought direct: purchase slug `<book id>-<year>`
+    // (lib/editions.ts). Resolved from the slug alone, so it stays in the
+    // library after that edition stops being sold here.
+    const m = slug.match(/^(.+)-(\d{4})$/);
+    const parent = m ? bookMap.get(m[1]) : undefined;
+    if (m && parent) {
+      const data = { ...parent.data, edition_label: `${m[2]} Edition` };
+      return { slug, page: parent.id, kind: 'book', data, purchased_at: earliest.createdAt };
+    }
     const tk = toolkitMap.get(slug);
-    if (tk) return { slug, kind: 'toolkit', data: tk.data, purchased_at: earliest.createdAt };
+    if (tk) return { slug, page: slug, kind: 'toolkit', data: tk.data, purchased_at: earliest.createdAt };
     return null;
   })
   .filter((item): item is OwnedItem => item !== null);
@@ -78,7 +91,7 @@ const owned: OwnedItem[] = ownedSlugs
           ) : (
             <ul class="library-list">
               {owned.map((item) => {
-                const detailHref = item.kind === 'toolkit' ? `/toolkits/${item.slug}` : `/books/${item.slug}`;
+                const detailHref = item.kind === 'toolkit' ? `/toolkits/${item.page}` : `/books/${item.page}`;
                 return (
                   <li class="library-item">
                     <a href={detailHref} class="lib-cover">
@@ -86,7 +99,7 @@ const owned: OwnedItem[] = ownedSlugs
                     </a>
                     <div class="lib-meta">
                       <h3>{item.data.title}</h3>
-                      <p class="lib-subtitle">{item.data.subtitle}</p>
+                      <p class="lib-subtitle">{item.data.subtitle}{item.data.edition_label && ` · ${item.data.edition_label}`}</p>
                       <p class="lib-purchased">Purchased {new Date(item.purchased_at).toLocaleDateString()}</p>
                     </div>
                     <div class="lib-actions">

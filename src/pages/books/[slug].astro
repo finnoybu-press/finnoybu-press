@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MobileBuyBar from '../../components/MobileBuyBar.astro';
+import FormatGrid from '../../components/FormatGrid.astro';
+import { newerSlug } from '../../lib/editions';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 export const prerender = true;
@@ -136,55 +138,14 @@ if (book.data.collection === 'product-deep-dives') {
                   <span>{book.data.newer_edition.edition}</span>
                   {book.data.newer_edition.chapter_count && <span>{book.data.newer_edition.chapter_count} chapters</span>}
                 </p>
-                <div class="formats">
-                  {book.data.newer_edition.formats.map((f) => (
-                    <a
-                      href={f.url ?? '#'}
-                      target={f.url ? '_blank' : undefined}
-                      rel={f.url ? 'noopener' : undefined}
-                      class={`format ${!f.url ? 'unavailable' : ''}`}
-                      data-type={f.type}
-                      aria-disabled={!f.url}
-                    >
-                      <span class="format-type">{f.label}</span>
-                      <span class="format-price">{f.url ? f.price : 'Coming soon'}</span>
-                    </a>
-                  ))}
-                </div>
+                <FormatGrid formats={book.data.newer_edition.formats} cartSlug={newerSlug(book) ?? book.id} />
                 <p class="byline edition-head">
                   <span>{book.data.edition}</span>
                   {book.data.chapter_count && <span>{book.data.chapter_count} chapters</span>}
                 </p>
               </>
             )}
-            <div class="formats">
-              {book.data.formats.map((f) => (
-                f.type === 'pdf-epub' ? (
-                  <button
-                    type="button"
-                    class="format format-cart"
-                    data-type={f.type}
-                    data-add-to-cart
-                    data-slug={book.id}
-                  >
-                    <span class="format-type">{f.label}</span>
-                    <span class="format-price" data-cart-price>{f.price}</span>
-                  </button>
-                ) : (
-                  <a
-                    href={f.url ?? '#'}
-                    target={f.url ? '_blank' : undefined}
-                    rel={f.url ? 'noopener' : undefined}
-                    class={`format ${!f.url ? 'unavailable' : ''}`}
-                    data-type={f.type}
-                    aria-disabled={!f.url}
-                  >
-                    <span class="format-type">{f.label}</span>
-                    <span class="format-price">{f.url ? f.price : 'Coming soon'}</span>
-                  </a>
-                )
-              ))}
-            </div>
+            <FormatGrid formats={book.data.formats} cartSlug={book.id} />
             </>
           )}
         </div>
@@ -219,7 +180,7 @@ if (book.data.collection === 'product-deep-dives') {
             } else {
               // Reset from data attributes in case we toggled before
               typeEl.textContent = typeEl.dataset.original ?? typeEl.textContent;
-              priceEl.textContent = priceEl.dataset.original ?? priceEl.textContent;
+              priceEl.innerHTML = priceEl.dataset.original ?? priceEl.innerHTML;
             }
           }
         });
@@ -230,7 +191,7 @@ if (book.data.collection === 'product-deep-dives') {
         const typeEl = btn.querySelector<HTMLSpanElement>('.format-type');
         const priceEl = btn.querySelector<HTMLSpanElement>('[data-cart-price]');
         if (typeEl && !typeEl.dataset.original) typeEl.dataset.original = typeEl.textContent || '';
-        if (priceEl && !priceEl.dataset.original) priceEl.dataset.original = priceEl.textContent || '';
+        if (priceEl && !priceEl.dataset.original) priceEl.dataset.original = priceEl.innerHTML || '';
         btn.addEventListener('click', () => {
           const slug = btn.dataset.slug;
           if (!slug) return;
@@ -308,7 +269,7 @@ if (book.data.collection === 'product-deep-dives') {
   </article>
 
   {book.data.status !== 'in-development' && (
-    <MobileBuyBar title={book.data.title} formats={book.data.formats} edition={book.data.newer_edition ? book.data.edition : undefined} newerEdition={book.data.newer_edition} cartSlug={book.id} />
+    <MobileBuyBar title={book.data.title} formats={book.data.formats} edition={book.data.newer_edition ? book.data.edition : undefined} newerEdition={book.data.newer_edition} cartSlug={book.id} newerCartSlug={newerSlug(book) ?? undefined} />
   )}
 </BaseLayout>
 
@@ -428,80 +389,6 @@ if (book.data.collection === 'product-deep-dives') {
     color: var(--ink-700);
     font-size: 0.9375rem;
     line-height: 1.6;
-  }
-
-  /* ---------- Formats (desktop only — mobile uses MobileBuyBar) ---------- */
-  .formats {
-    display: none;
-    gap: 0.625rem;
-    margin-top: var(--space-3);
-  }
-
-  /* Desktop: 2-col grid. PDF/EPUB spans full row, kindle/paperback share row 2. */
-  @media (min-width: 768px) {
-    .formats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .format {
-    display: flex;
-    flex-direction: column;
-    padding: 0.875rem 1rem;
-    border: 1px solid var(--ink-200);
-    background: var(--paper);
-    color: var(--ink-900);
-    transition: border-color 0.2s, transform 0.2s, background 0.2s;
-    min-width: 130px;
-    /* Reset native button styles for the cart-trigger variant */
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
-  .format:hover { border-color: var(--accent-color); transform: translateY(-2px); }
-  .format.unavailable { color: var(--ink-300); cursor: default; pointer-events: none; }
-
-  /* PDF/EPUB always spans full width above the kindle/paperback row */
-  .format[data-type="pdf-epub"] {
-    grid-column: 1 / -1;
-    align-items: flex-start;
-  }
-
-  /* In-cart state: subtle inversion so it's visually distinct from "add" */
-  .format-cart.in-cart {
-    background: var(--accent-color);
-  }
-  .format-cart.in-cart .format-type,
-  .format-cart.in-cart .format-price {
-    color: var(--paper);
-  }
-
-  /* Primary CTA — PDF/EPUB stands out via accent-tinted background */
-  .format[data-type="pdf-epub"]:not(.in-cart) {
-    background: color-mix(in srgb, var(--accent-color) 18%, var(--paper));
-    border-color: var(--accent-color);
-  }
-  .format[data-type="pdf-epub"]:not(.in-cart):hover {
-    background: color-mix(in srgb, var(--accent-color) 28%, var(--paper));
-  }
-  .format[data-type="pdf-epub"]:not(.in-cart) .format-type,
-  .format[data-type="pdf-epub"]:not(.in-cart) .format-price {
-    color: var(--accent-color);
-  }
-
-  .format-type {
-    font-size: 0.75rem;
-    color: var(--ink-500);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .format-price {
-    font-family: var(--serif);
-    font-size: 1.375rem;
-    font-weight: 600;
-    margin-top: 0.15rem;
   }
 
   /* ---------- Tablet+ : 2-col hero ---------- */

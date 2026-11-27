@@ -27,7 +27,7 @@ formats:
     label: Paperback
     price: $19.99
 
-status: in-development
+status: published
 ---
 
 For the first time, you can describe a physical object in a sentence and have a machine hand you something three-dimensional a few seconds later. Type "a low-poly fox sitting upright" and a generative model hands you a textured fox. Describe "a flange with six bolt holes on a 100-millimeter circle" to an AI-CAD tool and it hands you something an engineer could open and edit. People who have never touched a 3D program are making 3D things this afternoon.
