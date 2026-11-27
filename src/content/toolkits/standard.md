@@ -10,7 +10,7 @@ accent_color: "#49505A"
 cover_image: /images/cover-aegis-smb-standard.png
 cover_thumb: /images/thumb-aegis-smb-standard.png
 
-description: Everything in Starter, plus the governance structure to maintain it. Adds a lightweight governance policy and a living risk register so your AI oversight scales with your tool adoption — not just a one-time exercise, but a repeatable quarterly process.
+description: Everything in Starter, plus the governance structure to maintain it. Adds a lightweight governance policy and a living risk register so your AI oversight scales with your tool adoption. It becomes a repeatable quarterly process instead of a one-time exercise.
 doc_count: 6
 docs:
   - Acceptable Use Policy (fill-in-the-blank template)
