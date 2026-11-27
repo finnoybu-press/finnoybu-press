@@ -49,8 +49,8 @@ const bookSchema = {
   image: new URL(book.data.cover_image, Astro.site).toString(),
   numberOfPages: book.data.page_estimate ?? undefined,
   url: new URL(Astro.url.pathname, Astro.site).toString(),
-  ...(book.data.formats.filter((f) => f.url).length > 0 && {
-    offers: book.data.formats
+  ...([...(book.data.newer_edition?.formats ?? []), ...book.data.formats].filter((f) => f.url).length > 0 && {
+    offers: [...(book.data.newer_edition?.formats ?? []), ...book.data.formats]
       .filter((f) => f.url)
       .map((f) => ({
         '@type': 'Offer',
@@ -118,8 +118,8 @@ if (book.data.collection === 'product-deep-dives') {
 
           <div class="byline">
             <span>By {book.data.author}</span>
-            <span>{book.data.edition}</span>
-            {book.data.chapter_count && <span>{book.data.chapter_count} chapters</span>}
+            {!book.data.newer_edition && <span>{book.data.edition}</span>}
+            {!book.data.newer_edition && book.data.chapter_count && <span>{book.data.chapter_count} chapters</span>}
           </div>
 
           <p class="pitch">{book.data.description}</p>
@@ -129,6 +129,34 @@ if (book.data.collection === 'product-deep-dives') {
               <strong>In development.</strong> Sign up for notification when this book launches.
             </p>
           ) : (
+            <>
+            {book.data.newer_edition && (
+              <>
+                <p class="byline edition-head">
+                  <span>{book.data.newer_edition.edition}</span>
+                  {book.data.newer_edition.chapter_count && <span>{book.data.newer_edition.chapter_count} chapters</span>}
+                </p>
+                <div class="formats">
+                  {book.data.newer_edition.formats.map((f) => (
+                    <a
+                      href={f.url ?? '#'}
+                      target={f.url ? '_blank' : undefined}
+                      rel={f.url ? 'noopener' : undefined}
+                      class={`format ${!f.url ? 'unavailable' : ''}`}
+                      data-type={f.type}
+                      aria-disabled={!f.url}
+                    >
+                      <span class="format-type">{f.label}</span>
+                      <span class="format-price">{f.url ? f.price : 'Coming soon'}</span>
+                    </a>
+                  ))}
+                </div>
+                <p class="byline edition-head">
+                  <span>{book.data.edition}</span>
+                  {book.data.chapter_count && <span>{book.data.chapter_count} chapters</span>}
+                </p>
+              </>
+            )}
             <div class="formats">
               {book.data.formats.map((f) => (
                 f.type === 'pdf-epub' ? (
@@ -157,6 +185,7 @@ if (book.data.collection === 'product-deep-dives') {
                 )
               ))}
             </div>
+            </>
           )}
         </div>
       </div>
@@ -279,7 +308,7 @@ if (book.data.collection === 'product-deep-dives') {
   </article>
 
   {book.data.status !== 'in-development' && (
-    <MobileBuyBar title={book.data.title} formats={book.data.formats} />
+    <MobileBuyBar title={book.data.title} formats={book.data.formats} edition={book.data.newer_edition ? book.data.edition : undefined} newerEdition={book.data.newer_edition} cartSlug={book.id} />
   )}
 </BaseLayout>
 
@@ -373,6 +402,11 @@ if (book.data.collection === 'product-deep-dives') {
     letter-spacing: 0.02em;
     margin-bottom: var(--space-3);
   }
+  .edition-head {
+    margin-top: var(--space-3);
+    margin-bottom: 0.75rem;
+  }
+  .edition-head:first-child { margin-top: 0; }
   .byline span + span::before {
     content: '·';
     color: var(--ink-300);

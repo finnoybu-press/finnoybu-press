@@ -89,7 +89,7 @@ export const POST: APIRoute = async (ctx) => {
           currency: DIGITAL_BUNDLE_CURRENCY,
           unit_amount: cents,
           product_data: {
-            name: `${book.data.title} — PDF & ePub`,
+            name: `${book.data.title}: ${book.data.subtitle}, PDF & ePub (${book.data.edition})`,
             metadata: { item_slug: item.slug, item_kind: 'book' },
           },
         },

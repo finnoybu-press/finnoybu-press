@@ -12,13 +12,19 @@ interface Format {
 interface Props {
   title: string;
   formats: Format[];
-  itemNoun?: string;        // for the CTA label ("Buy this <noun>"), defaults to "book"
+  itemNoun?: string;
+  edition?: string;                        // label for `formats` when a newer edition is listed above them
+  newerEdition?: { edition: string; formats: Format[] };
+  cartSlug?: string;                       // books: PDF/EPUB becomes an add-to-cart button (the page script wires it)        // for the CTA label ("Buy this <noun>"), defaults to "book"
 }
 
-const { title, formats, itemNoun = 'book' } = Astro.props;
+const { title, formats, itemNoun = 'book', edition, newerEdition, cartSlug } = Astro.props;
+const groups = newerEdition
+  ? [{ label: newerEdition.edition, formats: newerEdition.formats }, { label: edition, formats }]
+  : [{ label: undefined, formats }];
 
 // Find the cheapest with a URL (fallback to first format)
-const available = formats.filter((f) => f.url);
+const available = [...(newerEdition?.formats ?? []), ...formats].filter((f) => f.url);
 const primary = available[0] ?? formats[0];
 ---
 {formats.length > 0 && (
@@ -39,23 +45,33 @@ const primary = available[0] ?? formats[0];
           <h3>{title}</h3>
           <button class="close" id="buy-sheet-close" aria-label="Close">×</button>
         </header>
-        <ul class="sheet-formats">
-          {formats.map((f) => (
-            <li>
-              {f.url ? (
-                <a href={f.url} target="_blank" rel="noopener" class="sheet-format">
-                  <span class="format-type">{f.label}</span>
-                  <span class="format-price">{f.price}</span>
-                </a>
-              ) : (
-                <span class="sheet-format unavailable">
-                  <span class="format-type">{f.label}</span>
-                  <span class="format-price">Coming soon</span>
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+        {groups.map((g) => (
+          <>
+            {g.label && <p class="sheet-edition">{g.label}</p>}
+            <ul class="sheet-formats">
+              {g.formats.map((f) => (
+                <li>
+                  {f.type === 'pdf-epub' && cartSlug ? (
+                    <button type="button" class="sheet-format sheet-cart" data-type={f.type} data-add-to-cart data-slug={cartSlug}>
+                      <span class="format-type">{f.label}</span>
+                      <span class="format-price" data-cart-price>{f.price}</span>
+                    </button>
+                  ) : f.url ? (
+                    <a href={f.url} target="_blank" rel="noopener" class="sheet-format">
+                      <span class="format-type">{f.label}</span>
+                      <span class="format-price">{f.price}</span>
+                    </a>
+                  ) : (
+                    <span class="sheet-format unavailable">
+                      <span class="format-type">{f.label}</span>
+                      <span class="format-price">Coming soon</span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        ))}
       </div>
     </dialog>
 
@@ -186,6 +202,21 @@ const primary = available[0] ?? formats[0];
     padding: 0 0.25rem;
   }
 
+  .sheet-cart {
+    width: 100%;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    background: var(--paper);
+  }
+  .sheet-edition {
+    margin: 0.75rem 0 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-500);
+  }
   .sheet-formats {
     list-style: none;
     display: flex;

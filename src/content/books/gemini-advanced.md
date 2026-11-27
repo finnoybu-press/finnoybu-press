@@ -28,6 +28,17 @@ formats:
     price: $19.99
     url: https://www.amazon.com/dp/B0GW4MQ438
 
+newer_edition:
+  edition: 2027 Edition
+  chapter_count: 24
+  formats:
+    - type: kindle
+      label: Kindle
+      price: $9.99
+    - type: paperback
+      label: Paperback
+      price: $19.99
+
 status: published
 ---
 
@@ -53,6 +64,6 @@ Power users work differently. They build systems — repeatable, structured work
 
 **50 power-user prompt patterns,** Gem instruction templates, an API quick reference, and a glossary of advanced terms.
 
-If the Definitive Guide taught you to drive, this book teaches you to race.
+If the Complete Guide taught you to drive, this book teaches you to race.
 
 Includes coverage of Gemini 2.5 Pro, 2.5 Flash, Deep Think, Deep Research, Imagen 3, Apps (formerly Extensions), NotebookLM, Vertex AI, and every 2026 power-user feature.
