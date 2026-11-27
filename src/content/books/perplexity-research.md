@@ -17,10 +17,6 @@ chapter_count: 25
 page_estimate: "~210"
 
 formats:
-  - type: pdf-epub
-    label: PDF / EPUB
-    price: $5.99
-    was_price: $7.99
   - type: kindle
     label: Kindle
     price: $9.99

@@ -141,6 +141,7 @@ if (book.data.collection === 'product-deep-dives') {
                 <p class="byline edition-head">
                   <span>{book.data.edition}</span>
                   {book.data.chapter_count && <span>{book.data.chapter_count} chapters</span>}
+                  {book.data.formats.some((f) => f.type === 'kindle') && <span>Kindle edition included with Kindle Unlimited</span>}
                 </p>
               </>
             )}

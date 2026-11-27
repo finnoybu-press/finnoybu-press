@@ -1,7 +1,8 @@
 // Direct (on-site) PDF/ePub products and their purchase slugs.
 //
 // A book's `formats` describe its `edition` (the 2026 Edition for Books 1-28,
-// the 2027 Edition for Book 29); its purchase slug is the book id, as before.
+// the 2027 Edition for Book 29); its purchase slug is the book id. Books 1-28
+// no longer sell their 2026 Edition here (it is in KDP Select on Kindle).
 // A `newer_edition` with a pdf-epub format is a second product whose purchase
 // slug is `<book id>-<year>`, e.g. `claude-definitive-2027`. That slug is what
 // the cart, Stripe metadata, the purchases table and R2 keys use.
@@ -68,4 +69,16 @@ export function allDirectProducts(books: Book[]): DirectProduct[] {
 
 export function findDirectProduct(books: Book[], slug: string): DirectProduct | undefined {
   return allDirectProducts(books).find((p) => p.slug === slug);
+}
+
+// The product a bundle includes for each book: the newest edition sold direct
+// (the 2027 Edition). Bundles never include an older edition.
+export function bundleProducts(books: Book[]): DirectProduct[] {
+  const byNumber = new Map<number, DirectProduct>();
+  for (const p of allDirectProducts(books)) {
+    const cur = byNumber.get(p.number);
+    const year = Number(editionYear(p.edition) ?? 0);
+    if (!cur || year > Number(editionYear(cur.edition) ?? 0)) byNumber.set(p.number, p);
+  }
+  return [...byNumber.values()].sort((a, b) => a.number - b.number);
 }

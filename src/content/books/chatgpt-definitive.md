@@ -17,10 +17,6 @@ chapter_count: 32
 page_estimate: "~240"
 
 formats:
-  - type: pdf-epub
-    label: PDF / EPUB
-    price: $5.99
-    was_price: $7.99
   - type: kindle
     label: Kindle
     price: $9.99
@@ -34,6 +30,9 @@ newer_edition:
   edition: 2027 Edition
   chapter_count: 32
   formats:
+    - type: pdf-epub
+      label: PDF / EPUB
+      price: $7.99
     - type: kindle
       label: Kindle
       price: $9.99
