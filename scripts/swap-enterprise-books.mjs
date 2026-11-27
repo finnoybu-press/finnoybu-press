@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 /**
- * Swap the two book PDFs inside the Enterprise Toolkit ZIP for their 2027
- * Edition builds.
+ * Put the 2027 Edition PDFs of Book 20 (AI Governance for Practitioners) and
+ * Book 21 (Securing Agentic AI) into the Enterprise Toolkit ZIP.
  *
- * The 2026 Editions are in KDP Select (Kindle-exclusive), so the ZIP must
- * carry the 2027 Edition PDFs of Book 20 (AI Governance for Practitioners) and
- * Book 21 (Securing Agentic AI) instead.
+ * The toolkit listing promises both books, but the ZIP held only the four
+ * DOCX templates and the whitepaper. The 2026 Editions are in KDP Select
+ * (Kindle-exclusive), so the ZIP carries the 2027 Edition builds.
  *
  * Steps:
  *   1. Download finnoybu-press-pdfs/enterprise/enterprise.zip from R2.
  *   2. Extract it to a temp folder (Windows tar handles ZIP).
- *   3. Replace every PDF whose name starts with "20-" / "21-" or a dated
- *      "YYYY-MM-DD-" prefix of those books with the undated 2027 build from
- *      the sibling repos (..\NN-<name>\output\NN-<name>-digital.pdf).
+ *   3. For each book: replace an existing book PDF (named "20-..." / "21-...",
+ *      optionally with a dated "YYYY-MM-DD-" prefix) or, if there is none,
+ *      add the undated 2027 build from the sibling repo
+ *      (..\NN-<name>\output\NN-<name>-digital.pdf). Nothing else in the ZIP
+ *      is touched.
  *   4. Re-zip and upload back to the same key.
  *
  * Usage (from the press repo):
@@ -32,8 +34,8 @@ const PRESS_PARENT = join(process.cwd(), '..');
 const dryRun = process.argv.includes('--dry-run');
 
 const BOOKS = [
-  { number: 20, match: /governance/i },
-  { number: 21, match: /securing/i },
+  { number: 20, match: /^(\d{4}-\d{2}-\d{2}-)?20-.*\.pdf$/i },
+  { number: 21, match: /^(\d{4}-\d{2}-\d{2}-)?21-.*\.pdf$/i },
 ];
 
 function sh(cmd, opts = {}) {
@@ -82,16 +84,17 @@ for (const f of files) console.log('  ' + f.slice(extracted.length + 1));
 let failed = false;
 for (const b of BOOKS) {
   const build = newBuild(b.number);
-  const olds = files.filter((f) => f.toLowerCase().endsWith('.pdf') && b.match.test(basename(f)));
+  const olds = files.filter((f) => b.match.test(basename(f)));
   if (!build) { console.error(`\nBook ${b.number}: no 2027 build found in its output folder.`); failed = true; continue; }
-  if (olds.length !== 1) { console.error(`\nBook ${b.number}: expected 1 matching PDF in the ZIP, found ${olds.length}.`); failed = true; continue; }
-  const old = olds[0];
-  const dest = join(old, '..', basename(build));
-  console.log(`\nBook ${b.number}: ${basename(old)}  ->  ${basename(build)}`);
-  if (!dryRun) {
-    rmSync(old);
-    copyFileSync(build, dest);
+  if (olds.length > 1) { console.error(`\nBook ${b.number}: found ${olds.length} book PDFs in the ZIP, expected at most 1.`); failed = true; continue; }
+  const dest = join(extracted, basename(build));
+  if (olds.length === 1) {
+    console.log(`\nBook ${b.number}: replace ${basename(olds[0])}  ->  ${basename(build)}`);
+    if (!dryRun) rmSync(olds[0]);
+  } else {
+    console.log(`\nBook ${b.number}: add ${basename(build)}`);
   }
+  if (!dryRun) copyFileSync(build, dest);
 }
 if (failed) { console.error('\nStopped: nothing uploaded.'); process.exit(1); }
 
@@ -104,4 +107,4 @@ if (dryRun) {
 const top = readdirSync(extracted).map((n) => `"${n}"`).join(' ');
 sh(`tar -a -c -f "${zipOut}" ${top}`, { cwd: extracted });
 sh(`npx wrangler r2 object put "${BUCKET}/${KEY}" --remote --file "${zipOut}" --content-type application/zip`);
-console.log('\nDone: Enterprise Toolkit ZIP now carries the 2027 Edition PDFs of Books 20 and 21.');
+console.log('\nDone: the Enterprise Toolkit ZIP now carries the 2027 Edition PDFs of Books 20 and 21.');
