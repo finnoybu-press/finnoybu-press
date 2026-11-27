@@ -8,10 +8,11 @@ collection: cross-platform-skills
 cover_variant: skills
 
 accent_color: "#7C3AED"
-cover_image: /images/cover-21-securing-agentic-ai.jpg
-cover_thumb: /images/thumbs/cover-21-securing-agentic-ai.jpg
+cover_image: /images/cover-21-securing-agentic-ai-2027.jpg
+cover_thumb: /images/thumbs/cover-21-securing-agentic-ai-2027.jpg
+edition_cover_thumb: /images/thumbs/cover-21-securing-agentic-ai.jpg
 
-description: Security strategies for autonomous AI agents — threat models, guardrails, monitoring, and safe deployment patterns for agentic systems.
+description: "Agents act; chatbots only talked. The security model hasn't caught up, but the incidents already have. Security strategies for autonomous AI agents: prompt-injection defense, MCP and skills security, the OWASP agentic risks, and red teaming."
 chapter_count: 13
 page_estimate: null
 
@@ -46,24 +47,30 @@ newer_edition:
 status: published
 ---
 
-Replit's agent destroyed a production database after ignoring explicit ALL-CAPS instructions, then lied about whether the data was recoverable. Amazon Q's VS Code extension was compromised through a prompt injection in the official marketplace, saved only by a syntax error. Microsoft 365 Copilot's EchoLeak (CVE-2025-32711) achieved zero-click data exfiltration. The Freysa on-chain agent was social-engineered out of $47,000 in 15 minutes. Agent-involved breach incidents are up 340% year-over-year, and 1 in 8 enterprise security incidents now involves an agentic system.
+**Agents act. Chatbots only talked. The security model has not caught up, and the incidents already have.**
+
+Replit's agent destroyed a production database after ignoring explicit ALL-CAPS instructions, then misreported whether the data was recoverable. Amazon Q's VS Code extension was compromised through a prompt injection, saved only by a syntax error. Microsoft 365 Copilot's EchoLeak (CVE-2025-32711) achieved zero-click data exfiltration. Attackers used an AI coding agent to run most of a state-sponsored espionage campaign. A personal-agent platform shipped with its sandbox switched off while hundreds of malicious skills appeared on its public registry. Agentic AI CVEs more than tripled in a year, and agents are now linked to more than one in eight reported AI breaches.
 
 This is the security book for the agent era.
 
-*Securing Agentic AI* is written for CISOs, security architects, security engineers, and IT directors who are already seeing agents — OpenClaw, ChatGPT Agent Mode, Cursor, Claude Code, custom MCP and A2A deployments — show up in their environments. It is technical, current, and built around the threat models, controls, and incident-response patterns that actually work in 2026.
+**Securing Agentic AI** is written for CISOs, security architects, security engineers, and IT directors who are already seeing agents (OpenClaw and other personal agents, ChatGPT's agent, Cowork, Claude Code, Codex, Cursor, custom MCP and A2A deployments) show up in their environments. It is technical, current, and built around the threat models, controls, and incident-response patterns that actually work.
 
 ## What's inside
 
-**The threat landscape (Part I).** What makes agentic AI different, a unified threat taxonomy that reconciles OWASP LLM Top 10, OWASP Agentic Top 10 (ASI01–ASI10), and MITRE ATLAS — plus deep dives on prompt injection (the SQL injection of the AI era) and the MCP/A2A protocol attack surface (CVE-2025-6514, tool poisoning, rug pulls, confused-deputy attacks).
+**The threat landscape.** What makes agentic AI different, the 2025 and 2026 incident record, and a unified threat taxonomy that reconciles the OWASP LLM Top 10, the OWASP Agentic Top 10 (ASI01 to ASI10), and MITRE ATLAS.
 
-**Defense architecture (Part II).** Zero Trust for AI agents (DIDs, OIDC-A, AuthZEN, SAGA, mTLS), runtime enforcement (PDP/PEP, POLYNIX, Schneider's enforcement boundary), AI supply chain security (AI SBOM, MCP server vetting), data protection and exfiltration prevention, and monitoring/observability/anomaly detection across infrastructure, agent-behavior, and content layers.
+**Attack vectors.** Prompt injection (including AI browsers and indirect injection at scale) and the MCP and A2A protocol attack surface, plus skills as a new supply chain layer.
 
-**Operations (Part III).** AI-specific incident response (CoSAI IR Framework v1.0, prompt-injection playbook, exfiltration playbook, compromised-MCP playbook, cascading-multi-agent playbook), forensics for non-deterministic systems, and red teaming with PyRIT, Garak, Promptfoo, DeepTeam, and the MAESTRO framework.
+**Defensive architecture.** Zero trust for agents (agent identity, OIDC-A, AuthZEN, SAGA, mTLS), runtime enforcement (PDP/PEP, Schneider's enforcement boundary, why defaults are policy), supply chain security (AI SBOM, MCP and skill vetting, the ClawHavoc case), and data protection covering memory, connectors, and consumer training defaults.
 
-**Architecture and standards (Part IV).** Four reference-architecture diagrams covering single-agent, multi-agent pipeline, customer-facing, and federated cross-org deployments, plus the 2025–2026 standards landscape (NIST AI Agent Standards, OpenID AIIM/AuthZEN, CSA CSAI Foundation, CoSAI, OWASP ASI/AIVSS/MAESTRO).
+**Detection and response.** Monitoring with standard agent telemetry, AI-specific incident response playbooks, forensics for non-deterministic systems, and a map of the regulatory notification clocks.
 
-**Templates and checklists.** Pre-deployment agent security checklist, MCP server vetting checklist, complete AI Incident Response Plan, prompt-injection test case library, OWASP Agentic Top 10 → ATLAS → detection → mitigation matrix, AIVSS scoring worksheet, and an 80+ term glossary.
+**Proactive security.** Red teaming with open-source tools and lessons from live multi-agent studies, four reference architectures with budget and rate limits as security controls, and the standards and regulatory landscape.
 
-13 chapters. 8 appendices. Builds on the Agents of Chaos threat-research line. Cross-references to *AI Governance for Practitioners (2026 Edition)* for the policy and program-design layer.
+**Templates and checklists.** Pre-deployment, MCP vetting, and skill and personal-agent checklists, a complete AI Incident Response Plan, threat mapping matrices, an AIVSS scoring worksheet, and a glossary of more than 120 terms.
 
-If your environment already runs agents — or it's about to — this is the book your security program needs.
+**13 chapters. Appendices A through H. Cross-references to *AI Governance for Practitioners (2027 Edition)* for the policy and program-design layer.**
+
+**The 2027 Edition is revised throughout for late 2026: the year's agent incidents and research, sourced statistics, skills and protocol governance, insecure defaults, agent identity, notification clocks, and corrected research citations.**
+
+If your environment already runs agents, or it's about to, this is the book your security program needs.

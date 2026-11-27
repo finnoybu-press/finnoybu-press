@@ -8,10 +8,11 @@ collection: product-deep-dives
 cover_variant: platform
 
 accent_color: "#EA4335"
-cover_image: /images/cover-06-gemini-advanced.jpg
-cover_thumb: /images/thumbs/cover-06-gemini-advanced.jpg
+cover_image: /images/cover-06-gemini-advanced-2027.jpg
+cover_thumb: /images/thumbs/cover-06-gemini-advanced-2027.jpg
+edition_cover_thumb: /images/thumbs/cover-06-gemini-advanced.jpg
 
-description: Advanced prompting, the Gemini API, Google Workspace mastery, and power workflows.
+description: "You've finished the Complete Guide. Now learn what Gemini can really do. Advanced workflows, prompt architecture, Deep Research, Gems, and the Gemini API on Vertex AI for power users."
 chapter_count: 24
 page_estimate: "~270"
 
@@ -46,28 +47,30 @@ newer_edition:
 status: published
 ---
 
-Most Gemini users know the features. They have used Google Search grounding, uploaded a document, maybe built a Gem. But they are working at the surface — typing a prompt, accepting whatever comes back, rephrasing when it falls short, and moving on. They use Gemini the way most people use a calculator: one operation at a time.
+**You finished the Complete Guide. Now learn what Gemini can really do.**
 
-Power users work differently. They build systems — repeatable, structured workflows that produce consistent, high-quality results across hundreds of tasks. They understand how the models reason, what makes one prompt dramatically better than another, and how to chain Gemini, Workspace, NotebookLM, and the API into pipelines that turn AI from a clever assistant into genuine leverage.
+Most Gemini users know the features. They have used Google Search grounding, uploaded a document, maybe built a Gem. But they are working at the surface: typing a prompt, accepting whatever comes back, rephrasing when it falls short, and moving on. They use Gemini the way most people use a calculator: one operation at a time.
 
-*Gemini: The Advanced Guide* is the companion to *Gemini: The Complete Guide* — and the book that closes the gap between knowing the buttons and mastering the machine.
+Power users work differently. They build systems: repeatable, structured workflows that produce consistent, high-quality results across hundreds of tasks. They understand how the models reason, what makes one prompt dramatically better than another, and how to chain Gemini, Workspace, Gemini Notebook, and the API into pipelines that turn AI from a clever assistant into genuine leverage.
+
+**Gemini: The Advanced Guide** is the companion to *Gemini: The Complete Guide*, and the book that closes the gap between knowing the buttons and mastering the machine.
 
 ## What's inside
 
 **The power user mindset.** Why most Gemini users plateau, the three levels of Gemini use, and how Gemini's massive context window, Deep Think reasoning, and search grounding combine to do things no other AI tool can match.
 
-**Advanced prompt architecture.** Prompt layering, few-shot patterns, response schemas, system instructions, Deep Think control, and the prompting techniques that make 2.5 Pro and 2.5 Flash produce production-quality output every time.
+**Advanced prompt architecture.** Prompt layering, few-shot patterns, response schemas, system instructions, Deep Think control, and thinking levels, and the prompting techniques that make the Gemini 4 models produce production-quality output every time.
 
 **Power workflows for serious work.** Google Search grounding pipelines, Deep Research at scale, multimodal analysis (image + video + audio + text), large-dataset analysis, brand-calibrated content production, and code workflows including Gemini Code Assist.
 
-**Gems, Apps, and the ecosystem.** Designing Gems that work, advanced App integration patterns across Gmail/Drive/Docs/Sheets/Maps/YouTube, NotebookLM power techniques, and when to graduate from chat to the API in Google AI Studio and Vertex AI.
+**Gems, Apps, and the ecosystem.** Designing Gems that work, advanced connected-app patterns across Gmail, Drive, Docs, Sheets, Maps, YouTube, and 40+ outside apps, Gemini Notebook power techniques, and when to graduate from chat to the API with the current google-genai SDK.
 
-**Google Workspace mastery.** Power patterns for Gmail, Docs, Sheets, Slides, Meet, and Calendar — including cross-app pipelines that turn data in Sheets into analysis in Docs into a presentation in Slides without manual handoff.
+**Google Workspace mastery.** Power patterns for Gmail, Docs, Sheets, Slides, Meet, and Calendar: including cross-app pipelines that turn data in Sheets into analysis in Docs into a presentation in Slides without manual handoff.
 
 **Mastery frameworks.** Decomposition, expert panel, adversarial, and Socratic problem-solving frameworks. Verification chains. Teaching others. Evaluating new features without drowning in hype.
 
-**50 power-user prompt patterns,** Gem instruction templates, an API quick reference, and a glossary of advanced terms.
+**50 power-user prompt patterns**, Gem instruction templates, an API quick reference, and a glossary of advanced terms.
 
 If the Complete Guide taught you to drive, this book teaches you to race.
 
-Includes coverage of Gemini 2.5 Pro, 2.5 Flash, Deep Think, Deep Research, Imagen 3, Apps (formerly Extensions), NotebookLM, Vertex AI, and every 2026 power-user feature.
+**Fully revised for 2027: covers the Gemini 4 family (Hydrogen, Neon, Carbon, and Argon), thinking levels, Deep Think, Deep Research, Nano Banana, Gemini Omni, connected apps, Tasks, Gemini Notebook (formerly NotebookLM), the google-genai SDK, and Vertex AI.**
