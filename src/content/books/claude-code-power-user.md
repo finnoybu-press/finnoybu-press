@@ -28,6 +28,17 @@ formats:
     price: $19.99
     url: https://www.amazon.com/dp/B0GWCRTJ2P
 
+newer_edition:
+  edition: 2027 Edition
+  chapter_count: 24
+  formats:
+    - type: kindle
+      label: Kindle
+      price: $9.99
+    - type: paperback
+      label: Paperback
+      price: $19.99
+
 status: published
 ---
 

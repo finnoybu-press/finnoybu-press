@@ -25,9 +25,10 @@ const booksForClient = allBooks.map((b) => {
     number: b.data.number,
     title: b.data.title,
     subtitle: b.data.subtitle,
-    cover_thumb: b.data.cover_thumb || b.data.cover_image,
+    cover_thumb: b.data.edition_cover_thumb || b.data.cover_thumb || b.data.cover_image,
     accent_color: b.data.accent_color,
     price_cents: priceCents(bundle?.price ?? ''),
+    edition: b.data.edition,
   };
 });
 
@@ -249,8 +250,8 @@ const bundlesForClient = BUNDLES.map((b) => {
             </a>
             <div class="cart-meta">
               <a href="/books/${book.slug}" class="cart-title">${escapeHtml(book.title)}: ${escapeHtml(book.subtitle)}</a>
-              <p class="cart-availability">In stock — instant download</p>
-              <p class="cart-format">PDF + ePub digital bundle</p>
+              <p class="cart-availability">In stock, instant download</p>
+              <p class="cart-format">${escapeHtml(book.edition)} · PDF + ePub digital bundle</p>
               <div class="cart-actions">
                 <button type="button" class="cart-link-btn" data-remove-book="${escapeHtml(book.slug)}">Delete</button>
               </div>

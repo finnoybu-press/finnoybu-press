@@ -32,7 +32,8 @@ const books = defineCollection({
 
     // Authoring
     author: z.string().default('Ken Tannenbaum'),
-    edition: z.string().default('2026 Edition'),
+    edition: z.string().default('2026 Edition'),    // edition that `formats` and `chapter_count` describe
+    edition_cover_thumb: z.string().optional(),      // that edition's cover thumb, when the page cover shows a newer edition
     publisher: z.string().default('Finnoybu Press'),
 
     // Content meta
@@ -47,6 +48,20 @@ const books = defineCollection({
       price: z.string(),                           // e.g. "$7.99"
       url: z.string().url().optional(),            // missing url = "coming soon"
     })),
+
+    // A newer edition sold through Amazon only (its Kindle edition is in
+    // KDP Select, so it is never sold direct). Shown above `formats`, which
+    // stay the edition sold here. Formats without a url show "Coming soon".
+    newer_edition: z.object({
+      edition: z.string(),                         // e.g. "2027 Edition"
+      chapter_count: z.number().int().nullable().optional(),
+      formats: z.array(z.object({
+        type: z.enum(['kindle', 'paperback']),
+        label: z.string(),
+        price: z.string(),
+        url: z.string().url().optional(),
+      })),
+    }).optional(),
 
     // Editorial extras
     sample_chapter_url: z.string().optional(),     // link to free chapter PDF

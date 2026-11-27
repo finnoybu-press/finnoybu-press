@@ -17,13 +17,15 @@ export interface Bundle {
   accentColor: string;
 }
 
-// All bundles cover the PDF + ePub edition only. Paperback and Kindle
+// All bundles cover the PDF + ePub of the 2026 Edition only (the edition sold
+// direct; newer editions are Amazon-only while their Kindle editions are in
+// KDP Select). Paperback and Kindle
 // remain individual purchases through their respective channels.
 export const BUNDLES: Bundle[] = [
   {
     id: 'collection-product-deep-dives',
-    label: 'Collection One — Product Deep Dives (PDF + ePub)',
-    description: 'All ten paired guides for ChatGPT, Claude, Gemini, Copilot, and Perplexity. PDF + ePub editions only.',
+    label: 'Collection One: Product Deep Dives (2026 Edition, PDF + ePub)',
+    description: 'All ten paired guides for ChatGPT, Claude, Gemini, Copilot, and Perplexity. 2026 Edition PDF + ePub only.',
     bookNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     toolkitSlugs: [],
     discountPercent: 15,
@@ -31,8 +33,8 @@ export const BUNDLES: Bundle[] = [
   },
   {
     id: 'collection-product-guides',
-    label: 'Collection Two — Product Guides (PDF + ePub)',
-    description: 'Single-volume guides for NotebookLM, DeepSeek, Cursor, and OpenClaw. PDF + ePub editions only.',
+    label: 'Collection Two: Product Guides (2026 Edition, PDF + ePub)',
+    description: 'Single-volume guides for NotebookLM, DeepSeek, Cursor, and OpenClaw. 2026 Edition PDF + ePub only.',
     bookNumbers: [11, 12, 13, 14],
     toolkitSlugs: [],
     discountPercent: 10,
@@ -40,8 +42,8 @@ export const BUNDLES: Bundle[] = [
   },
   {
     id: 'collection-cross-platform-skills',
-    label: 'Collection Three — Cross-Platform Skills (PDF + ePub)',
-    description: 'Seven cross-platform skills books from systems and prompting through governance and security. PDF + ePub editions only.',
+    label: 'Collection Three: Cross-Platform Skills (2026 Edition, PDF + ePub)',
+    description: 'Seven cross-platform skills books from systems and prompting through governance and security. 2026 Edition PDF + ePub only.',
     bookNumbers: [15, 16, 17, 18, 19, 20, 21],
     toolkitSlugs: [],
     discountPercent: 12.5,
@@ -49,8 +51,8 @@ export const BUNDLES: Bundle[] = [
   },
   {
     id: 'collection-product-guides-ii',
-    label: 'Collection Four — Product Guides, Vol. II (PDF + ePub)',
-    description: 'The next four single-product guides — Codex, Grok, Mistral, and DeepL. PDF + ePub editions only.',
+    label: 'Collection Four: Product Guides, Vol. II (2026 Edition, PDF + ePub)',
+    description: 'The next four single-product guides: Codex, Grok, Mistral, and DeepL. 2026 Edition PDF + ePub only.',
     bookNumbers: [22, 23, 24, 25],
     toolkitSlugs: [],
     discountPercent: 10,
@@ -58,8 +60,8 @@ export const BUNDLES: Bundle[] = [
   },
   {
     id: 'collection-capability-set',
-    label: 'Collection Five — The Capability Set (PDF + ePub)',
-    description: 'Three cross-platform capability books — automating your work, building apps without code, and AI literacy for the workplace. PDF + ePub editions only.',
+    label: 'Collection Five: The Capability Set (2026 Edition, PDF + ePub)',
+    description: 'Three cross-platform capability books: automating your work, building apps without code, and AI literacy for the workplace. 2026 Edition PDF + ePub only.',
     bookNumbers: [26, 27, 28],
     toolkitSlugs: [],
     discountPercent: 10,
@@ -67,8 +69,8 @@ export const BUNDLES: Bundle[] = [
   },
   {
     id: 'series-complete',
-    label: 'The Complete Series (PDF + ePub)',
-    description: 'All 28 books across the AI for Everyone series — at 25% off. PDF + ePub editions only; paperback sold separately.',
+    label: 'The Complete Series (2026 Edition, PDF + ePub)',
+    description: 'All 28 books across the AI for Everyone series at 25% off. 2026 Edition PDF + ePub only; paperback sold separately.',
     bookNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28],
     toolkitSlugs: [],
     discountPercent: 25,
