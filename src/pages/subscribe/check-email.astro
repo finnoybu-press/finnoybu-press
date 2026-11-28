@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoticePanel from '../../components/NoticePanel.astro';
+
+// Landing page for the no-JavaScript sign-up form post.
+export const prerender = false;
+const failed = Astro.url.searchParams.has('error');
+---
+<BaseLayout title="Check your inbox | Finnoybu Press" description="Confirm your Finnoybu Press subscription." noindex>
+  {failed ? (
+    <NoticePanel heading="That didn't go through.">
+      <p>Please check the email address and try again. If it keeps happening, write to <a href="mailto:support@finnoybu.org">support@finnoybu.org</a>.</p>
+      <p><a href="/">Back to the homepage</a></p>
+    </NoticePanel>
+  ) : (
+    <NoticePanel heading="Check your inbox.">
+      <p>We just sent you an email with a link to confirm your subscription. Open it to finish signing up.</p>
+      <p>Don't see it in a few minutes? Check your spam or promotions folder.</p>
+      <p><a href="/series">Browse the books</a></p>
+    </NoticePanel>
+  )}
+</BaseLayout>

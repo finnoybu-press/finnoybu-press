@@ -22,7 +22,8 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Per-visitor pages (sign-in, cart, post-checkout) have nothing to index.
-      filter: (page) => !/\/(account|cart|shop\/success)\/?$/.test(page),
+      filter: (page) =>
+        !/\/(account|cart|shop\/success)\/?$/.test(page) && !/\/subscribe\//.test(page),
     }),
   ],
 });

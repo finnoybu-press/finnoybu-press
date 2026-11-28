@@ -106,6 +106,31 @@ export const purchases = sqliteTable(
   }),
 );
 
+// Email sign-up list (double opt-in). See migrations/0001_subscribers.sql
+// and src/lib/subscribers.ts. `token` confirms a pending row and, once
+// confirmed, serves as the unsubscribe key.
+export const subscribers = sqliteTable(
+  'subscribers',
+  {
+    id: text('id').primaryKey(),
+    email: text('email').notNull(),
+    status: text('status', { enum: ['pending', 'confirmed', 'unsubscribed'] })
+      .notNull()
+      .default('pending'),
+    token: text('token').notNull(),
+    source: text('source'),
+    createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+    confirmSentAt: integer('confirm_sent_at', { mode: 'timestamp' }),
+    confirmedAt: integer('confirmed_at', { mode: 'timestamp' }),
+    unsubscribedAt: integer('unsubscribed_at', { mode: 'timestamp' }),
+  },
+  (t) => ({
+    emailUniq: uniqueIndex('subscribers_email_unique').on(t.email),
+    tokenUniq: uniqueIndex('subscribers_token_unique').on(t.token),
+    statusIdx: index('subscribers_status_idx').on(t.status),
+  }),
+);
+
 // Re-exported types for app use.
 export type User = typeof user.$inferSelect;
 export type Purchase = typeof purchases.$inferSelect;

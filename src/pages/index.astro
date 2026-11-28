@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CollectionCard from '../components/CollectionCard.astro';
+import SignupForm from '../components/SignupForm.astro';
 import { getCollection } from 'astro:content';
 
 export const prerender = true;
@@ -40,6 +41,7 @@ const skillsCovers = coversFor(
 <BaseLayout
   title="Finnoybu Press — AI guides for every user"
   description="Twenty-nine practical books on the tools, the skills, and the systems behind useful AI, plus governance toolkits for the teams deploying it."
+  footerSignup={false}
 >
   <header class="hero container">
     <div class="hero-text">
@@ -224,6 +226,7 @@ const skillsCovers = coversFor(
       />
     </div>
   </section>
+  <SignupForm source="home" />
 </BaseLayout>
 
 <style>

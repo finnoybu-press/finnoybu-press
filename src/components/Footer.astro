@@ -1,4 +1,11 @@
 ---
+import SignupForm from './SignupForm.astro';
+
+interface Props {
+  // Hidden on pages that already show the full sign-up section.
+  signup?: boolean;
+}
+const { signup = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
@@ -7,6 +14,11 @@ const year = new Date().getFullYear();
       <div class="footer-about">
         <span class="wordmark">Finnoybu Press</span>
         <p>Practical books and governance tools for the people actually using AI at work. An imprint of Finnoybu Operations LLC.</p>
+        {signup && (
+          <div class="footer-signup">
+            <SignupForm variant="footer" source="footer" />
+          </div>
+        )}
       </div>
       <div class="footer-cols">
         <div>
@@ -92,6 +104,8 @@ const year = new Date().getFullYear();
     max-width: 22rem;
     color: #8b837a;
   }
+
+  .footer-signup { margin-top: var(--space-3); max-width: 24rem; }
 
   .footer h5 {
     font-family: var(--sans);
