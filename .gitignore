@@ -37,3 +37,6 @@ Thumbs.db
 
 # TypeScript
 tsconfig.tsbuildinfo
+
+# send-upgrade-emails.mjs log of addresses already emailed
+scripts/.upgrade-emails-sent.json
