@@ -43,7 +43,7 @@ const bookSchema = {
   '@type': 'Book',
   name: `${book.data.title}: ${book.data.subtitle}`,
   bookFormat: 'https://schema.org/EBook',
-  author: { '@type': 'Person', name: book.data.author },
+  author: { '@type': 'Person', name: book.data.author, ...(book.data.author === 'Ken Tannenbaum' && { sameAs: ['https://www.amazon.com/author/kentannenbaum'] }) },
   publisher: { '@type': 'Organization', name: book.data.publisher },
   inLanguage: 'en-US',
   description: book.data.description,
