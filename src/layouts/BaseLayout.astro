@@ -16,6 +16,10 @@ interface Props {
   ogImage?: string;
   ogType?: string;
   jsonLd?: Record<string, any> | Record<string, any>[];
+  // Keep utility pages (confirm/unsubscribe) out of search results.
+  noindex?: boolean;
+  // Pages that already show the full sign-up section hide the footer copy.
+  footerSignup?: boolean;
 }
 
 const {
@@ -24,6 +28,8 @@ const {
   ogImage = '/images/og/home.jpg',
   ogType = 'website',
   jsonLd,
+  noindex = false,
+  footerSignup = true,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -49,6 +55,7 @@ const schemas = [orgSchema, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonL
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
+  {noindex && <meta name="robots" content="noindex" />}
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -80,7 +87,7 @@ const schemas = [orgSchema, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonL
   <main>
     <slot />
   </main>
-  <Footer />
+  <Footer signup={footerSignup} />
   {!layoutUser && <SignInModal />}
   <CookieBanner />
 </body>

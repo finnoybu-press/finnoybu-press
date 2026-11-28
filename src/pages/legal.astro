@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 export const prerender = true;
 
-const lastUpdated = 'May 5, 2026';
+const lastUpdated = 'November 28, 2026';
 ---
 <BaseLayout
   title="Legal — Finnoybu Press"
@@ -122,6 +122,15 @@ const lastUpdated = 'May 5, 2026';
             store your payment card details &mdash; those are handled entirely by Stripe.
           </p>
 
+          <h4>Email list</h4>
+          <p>
+            If you sign up to hear about new books and editions, we store your
+            <strong>email address</strong>, the page you signed up from, and the dates you
+            signed up, confirmed, or unsubscribed. We only add you to the list after you
+            click the confirmation link we email you. Every email we send includes a link
+            to unsubscribe, and you can also ask us to remove you at any time.
+          </p>
+
           <h4>Automatically collected data</h4>
           <p>
             Our hosting provider (Cloudflare) may log standard request metadata
@@ -141,11 +150,13 @@ const lastUpdated = 'May 5, 2026';
             <li>To provide and maintain your account and library access</li>
             <li>To process purchases and deliver digital downloads</li>
             <li>To send transactional emails (sign-in links and purchase receipts)</li>
+            <li>If you signed up for our email list, to tell you about new books, new editions, and limited-time free or discounted books</li>
           </ul>
           <p>
             We do <strong>not</strong> sell, rent, or share your personal data with
-            third parties for advertising or marketing purposes. We do <strong>not</strong>
-            send marketing or promotional emails.
+            third parties for advertising or marketing purposes. We only send news about
+            our books to people who have signed up for our email list and confirmed their
+            address.
           </p>
 
           <h3>Third-party services</h3>
@@ -158,8 +169,8 @@ const lastUpdated = 'May 5, 2026';
               <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer"> Cloudflare Privacy Policy</a>
             </li>
             <li>
-              <strong>Amazon Web Services (SES)</strong> &mdash; delivers transactional
-              email (sign-in links, purchase receipts) on our behalf.
+              <strong>Amazon Web Services (SES)</strong> &mdash; delivers our email
+              (sign-in links, purchase receipts, and email-list messages) on our behalf.
               <a href="https://aws.amazon.com/privacy/" target="_blank" rel="noopener noreferrer"> AWS Privacy Notice</a>
             </li>
             <li>

@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoticePanel from '../../components/NoticePanel.astro';
+import { getEnv } from '~/lib/env';
+import { confirm, type ConfirmResult } from '~/lib/subscribers';
+
+// GET shows a confirm button; POST does the confirming. Link scanners in
+// mail systems follow GET links, so a click-through keeps them from
+// confirming on the subscriber's behalf.
+export const prerender = false;
+
+let token = Astro.url.searchParams.get('t') ?? '';
+let result: ConfirmResult | null = null;
+
+if (Astro.request.method === 'POST') {
+  try {
+    const form = await Astro.request.formData();
+    token = String(form.get('t') ?? token);
+    const env = getEnv();
+    result = env.DB ? await confirm(env.DB, token) : 'invalid';
+  } catch (err) {
+    console.error('[subscribe/confirm] failed', err);
+    result = 'invalid';
+  }
+}
+---
+<BaseLayout title="Confirm your subscription | Finnoybu Press" description="Confirm your Finnoybu Press subscription." noindex>
+  {result === null && (
+    <NoticePanel heading="Confirm your subscription.">
+      <p>One click and you're on the list. We'll email you when new books and new editions come out, and when a book is free for a few days.</p>
+      <form method="post">
+        <input type="hidden" name="t" value={token} />
+        <button class="btn" type="submit">Confirm my subscription</button>
+      </form>
+    </NoticePanel>
+  )}
+  {(result === 'confirmed' || result === 'already-confirmed') && (
+    <NoticePanel heading="You're on the list.">
+      <p>Thanks for confirming. We'll let you know when new books and new editions come out.</p>
+      <p>Every email we send has an unsubscribe link at the bottom.</p>
+      <p><a href="/series">Browse the books</a></p>
+    </NoticePanel>
+  )}
+  {result === 'invalid' && (
+    <NoticePanel heading="That link has expired.">
+      <p>Confirmation links work for seven days. Please sign up again from any page on the site and we'll send a fresh one.</p>
+      <p><a href="/">Back to the homepage</a></p>
+    </NoticePanel>
+  )}
+</BaseLayout>

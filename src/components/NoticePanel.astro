@@ -1,0 +1,31 @@
+---
+// Simple centered message panel for the subscribe flow pages.
+interface Props {
+  eyebrow?: string;
+  heading: string;
+}
+const { eyebrow = 'Finnoybu Press', heading } = Astro.props;
+---
+<section class="notice container">
+  <span class="eyebrow">{eyebrow}</span>
+  <h1>{heading}</h1>
+  <div class="notice-body prose">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .notice {
+    padding-block: var(--space-6) var(--space-7);
+    max-width: var(--max-narrow);
+  }
+  .notice .eyebrow { display: block; margin-bottom: var(--space-2); }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1.05;
+    color: var(--ink-900);
+    margin-bottom: var(--space-3);
+  }
+  .notice-body :global(form) { margin-top: var(--space-3); }
+  .notice-body :global(a) { text-decoration: underline; }
+</style>

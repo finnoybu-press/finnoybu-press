@@ -1,0 +1,186 @@
+---
+// Email sign-up ("tell me when new editions come out").
+// Posts to /api/subscribe. Works without JavaScript (303 to
+// /subscribe/check-email); with JS it submits inline and shows the result.
+// Customer-facing copy: no em dashes.
+interface Props {
+  variant?: 'section' | 'footer';
+  // Where the sign-up came from, stored with the subscriber (e.g. "home",
+  // "book:chatgpt-definitive", "footer").
+  source: string;
+}
+
+const { variant = 'section', source } = Astro.props;
+const id = `signup-${Math.random().toString(36).slice(2, 8)}`;
+---
+{variant === 'section' ? (
+  <section class="signup-section section" aria-labelledby={`${id}-h`}>
+    <div class="signup-inner container">
+      <div class="signup-copy">
+        <span class="eyebrow">New editions</span>
+        <h2 id={`${id}-h`}>Hear about new books first.</h2>
+        <p class="prose">
+          Get an email when a new book or a new edition comes out, plus a heads-up when a book is free for a few days. No spam. Unsubscribe anytime.
+        </p>
+      </div>
+      <form class="signup-form" method="post" action="/api/subscribe" data-signup>
+        <label class="visually-hidden" for={`${id}-email`}>Email address</label>
+        <div class="signup-row">
+          <input id={`${id}-email`} type="email" name="email" required autocomplete="email" placeholder="you@example.com" maxlength="254" />
+          <button class="btn" type="submit">Notify me</button>
+        </div>
+        <input type="hidden" name="source" value={source} />
+        <div class="hp" aria-hidden="true">
+          <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <p class="signup-status" role="status" aria-live="polite"></p>
+        <p class="signup-fine">We'll send one email to confirm. See our <a href="/legal#privacy-policy">privacy policy</a>.</p>
+      </form>
+    </div>
+  </section>
+) : (
+  <form class="signup-form signup-footer" method="post" action="/api/subscribe" data-signup aria-labelledby={`${id}-h`}>
+    <h5 id={`${id}-h`}>New editions</h5>
+    <p class="signup-footer-copy">Get an email when a new book or edition comes out.</p>
+    <label class="visually-hidden" for={`${id}-email`}>Email address</label>
+    <div class="signup-row">
+      <input id={`${id}-email`} type="email" name="email" required autocomplete="email" placeholder="you@example.com" maxlength="254" />
+      <button type="submit">Notify me</button>
+    </div>
+    <input type="hidden" name="source" value={source} />
+    <div class="hp" aria-hidden="true">
+      <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+    </div>
+    <p class="signup-status" role="status" aria-live="polite"></p>
+  </form>
+)}
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('form[data-signup]');
+  forms.forEach((form) => {
+    if (form.dataset.bound) return;
+    form.dataset.bound = '1';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = form.querySelector<HTMLElement>('.signup-status');
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const data = new FormData(form);
+      if (button) button.disabled = true;
+      if (status) { status.textContent = 'Sending...'; status.dataset.state = ''; }
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { accept: 'application/json' },
+          body: data,
+        });
+        const json = (await res.json().catch(() => ({ ok: false }))) as { ok?: boolean; error?: string };
+        if (json.ok) {
+          form.classList.add('is-done');
+          if (status) {
+            status.dataset.state = 'ok';
+            status.textContent = 'Almost done. Check your inbox for a link to confirm your subscription.';
+          }
+        } else {
+          if (status) {
+            status.dataset.state = 'error';
+            status.textContent = json.error || 'Something went wrong. Please try again.';
+          }
+          if (button) button.disabled = false;
+        }
+      } catch {
+        if (status) {
+          status.dataset.state = 'error';
+          status.textContent = 'Something went wrong. Please try again.';
+        }
+        if (button) button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .signup-section { background: var(--paper-warm); }
+  .signup-inner {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .signup-inner { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+  }
+  .signup-copy .eyebrow { display: block; margin-bottom: var(--space-2); }
+  .signup-copy h2 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1.05;
+    color: var(--ink-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .signup-row { display: flex; flex-direction: column; gap: 0.5rem; }
+  @media (min-width: 640px) { .signup-row { flex-direction: row; } }
+
+  .signup-form input[type='email'] {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    font-family: var(--sans);
+    font-size: 1rem;
+    padding: 0.85em 1em;
+    border: 1px solid var(--ink-900);
+    background: var(--paper);
+    color: var(--ink-900);
+    border-radius: 0;
+  }
+  .signup-form input[type='email']:focus { outline: 2px solid var(--ink-900); outline-offset: 2px; }
+
+  .signup-status { min-height: 1.5em; margin-top: 0.75rem; font-family: var(--sans); font-size: 0.9375rem; color: var(--ink-700); }
+  .signup-status[data-state='ok'] { color: var(--accent-cross-platform); font-weight: 600; }
+  .signup-status[data-state='error'] { color: var(--accent-deep-dives); }
+  .signup-fine { font-family: var(--sans); font-size: 0.8125rem; color: var(--ink-500); margin-top: 0.25rem; }
+  .signup-fine a { text-decoration: underline; }
+
+  .signup-form.is-done .signup-row { display: none; }
+
+  /* Footer variant (dark background) */
+  .signup-footer h5 {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper);
+    margin-bottom: var(--space-2);
+  }
+  .signup-footer-copy { font-size: 0.9375rem; color: #8b837a; margin-bottom: var(--space-2); }
+  .signup-footer input[type='email'] {
+    background: transparent;
+    border-color: #5d5751;
+    color: var(--paper);
+    font-size: 0.9375rem;
+    padding: 0.7em 0.9em;
+  }
+  .signup-footer input[type='email']::placeholder { color: #6e665d; }
+  .signup-footer input[type='email']:focus { outline-color: var(--paper); }
+  .signup-footer button {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.7em 1.1em;
+    border: 1px solid var(--paper);
+    background: var(--paper);
+    color: var(--ink-900);
+    cursor: pointer;
+    border-radius: 0;
+  }
+  .signup-footer button:hover { background: transparent; color: var(--paper); }
+  .signup-footer button:disabled, .signup-form .btn:disabled { opacity: 0.6; cursor: default; }
+  .signup-footer .signup-status { color: #a39c91; font-size: 0.875rem; }
+  .signup-footer .signup-status[data-state='ok'] { color: var(--paper); }
+  .signup-footer .signup-status[data-state='error'] { color: #e29a82; }
+</style>

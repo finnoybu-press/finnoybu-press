@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoticePanel from '../../components/NoticePanel.astro';
+import { getEnv } from '~/lib/env';
+import { unsubscribe, type UnsubscribeResult } from '~/lib/subscribers';
+
+// GET shows a button; POST unsubscribes (link scanners only follow GET).
+// Every mailing to the list must carry /subscribe/unsubscribe?t=<token>.
+// Before pointing a List-Unsubscribe-Post (RFC 8058) header here, check that
+// Astro's checkOrigin lets a POST with no Origin header through.
+export const prerender = false;
+
+let token = Astro.url.searchParams.get('t') ?? '';
+let result: UnsubscribeResult | null = null;
+
+if (Astro.request.method === 'POST') {
+  try {
+    const form = await Astro.request.formData();
+    token = String(form.get('t') ?? token);
+    const env = getEnv();
+    result = env.DB ? await unsubscribe(env.DB, token) : 'invalid';
+  } catch (err) {
+    console.error('[subscribe/unsubscribe] failed', err);
+    result = 'invalid';
+  }
+}
+---
+<BaseLayout title="Unsubscribe | Finnoybu Press" description="Unsubscribe from Finnoybu Press emails." noindex>
+  {result === null && (
+    <NoticePanel heading="Unsubscribe?">
+      <p>Click below and we'll stop sending you emails about new books and editions.</p>
+      <form method="post">
+        <input type="hidden" name="t" value={token} />
+        <button class="btn" type="submit">Unsubscribe</button>
+      </form>
+    </NoticePanel>
+  )}
+  {(result === 'unsubscribed' || result === 'already-unsubscribed') && (
+    <NoticePanel heading="You're unsubscribed.">
+      <p>You won't get any more emails from us about new books and editions. If you change your mind, you can sign up again from any page on the site.</p>
+      <p><a href="/">Back to the homepage</a></p>
+    </NoticePanel>
+  )}
+  {result === 'invalid' && (
+    <NoticePanel heading="We couldn't find that subscription.">
+      <p>The link may be incomplete. If you're still getting emails you don't want, write to <a href="mailto:support@finnoybu.org">support@finnoybu.org</a> and we'll remove you.</p>
+      <p><a href="/">Back to the homepage</a></p>
+    </NoticePanel>
+  )}
+</BaseLayout>

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MobileBuyBar from '../../components/MobileBuyBar.astro';
 import FormatGrid from '../../components/FormatGrid.astro';
+import SignupForm from '../../components/SignupForm.astro';
 import { newerSlug } from '../../lib/editions';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
@@ -92,6 +93,7 @@ if (book.data.collection === 'product-deep-dives') {
   ogImage={bookOg}
   ogType="book"
   jsonLd={bookSchema}
+  footerSignup={false}
 >
   <article class="book-page" style={`--accent-color: ${book.data.accent_color}`}>
 
@@ -241,6 +243,8 @@ if (book.data.collection === 'product-deep-dives') {
         });
       }
     </script>
+
+    <SignupForm source={`book:${book.id}`} />
 
     {related.length > 0 && (
       <section class="section container">
